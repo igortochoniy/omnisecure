@@ -72,17 +72,6 @@ interface Props {
       </main>
     </div>
     <FooterSection />
-    <script>
-      // https://preline.co
-      import 'preline';
-      const init = () =>
-        (
-          window as Window & { HSStaticMethods?: { autoInit?: () => void } }
-        ).HSStaticMethods?.autoInit?.();
-      if (document.readyState === 'loading')
-        document.addEventListener('DOMContentLoaded', init);
-      else init();
-    </script>
     <style>
       /* CSS rules for the page scrollbar */
       .scrollbar-hide::-webkit-scrollbar {
