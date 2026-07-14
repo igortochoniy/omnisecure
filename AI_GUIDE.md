@@ -6,10 +6,30 @@ with the reusable infrastructure a client site needs: a **TinaCMS dashboard**, a
 **Resend contact form**, SEO/schema, and Cloudflare Pages deploy wiring. Clone it,
 fill in the content, ship. See [README.md](README.md) for human-facing setup.
 
-> **Methodology:** follow the `astro-landing-workflow` skill — build playbook
-> (PageSpeed 100, conventions, component patterns) plus `references/` for the CMS
-> dashboard, service registration (GitHub/TinaCloud/Cloudflare/Resend/DMARC),
-> domain migration, and client handoff.
+> **Methodology & playbooks:** the full step-by-step lives in-repo under
+> [`docs/`](docs/) (self-contained — travels with a clone). It mirrors Igor's
+> `astro-landing-workflow` skill; if that skill is loaded, its build playbook
+> (PageSpeed 100, conventions, component patterns) applies too.
+
+## Development plan (order of operations)
+
+Every client site follows this lifecycle. Do the phases in order — later ones
+need outputs (keys, URLs, content) from earlier ones.
+
+1. **Intake & scope** — gather the brief, agree the tier/SOW → [`docs/intake-and-pricing.md`](docs/intake-and-pricing.md).
+2. **Design → build** — Astro SSG from the design; fill the empty `index.astro`
+   - sub-pages; follow the conventions + PageSpeed playbook (below / skill).
+3. **CMS** — the TinaCMS dashboard is already wired; configure per project →
+   [`docs/tinacms-dashboard.md`](docs/tinacms-dashboard.md).
+4. **Favicon & OG** — manual, per project (quickstart step 5).
+5. **Provision services** (client-owned, in order): GitHub → TinaCloud →
+   Cloudflare Pages → Resend (+ DMARC) → [`docs/deploy-handoff-and-services.md`](docs/deploy-handoff-and-services.md).
+6. **Launch / migrate domain** — new domain, or migrate an existing site
+   (WordPress etc.); run the **launch checklist** in that same doc.
+7. **Handoff** — transfer the repo to the client (keep collaborator access), hand
+   over the dashboard + [`docs/client-handbook-template.md`](docs/client-handbook-template.md).
+8. **Post-launch & maintenance** — analytics live, monitoring/uptime, `noindex`
+   off, sitemap to Search Console, support retainer (see the deploy + intake docs).
 
 ## Project Overview
 
@@ -37,10 +57,10 @@ a ready **ContactForm.astro** section wired to the form Function.
    the tags in [Meta.astro](src/components/Meta.astro), and delete the
    `favicon.ico.ts` + `manifest.json.ts` routes (they conflict). Add a **1200×630**
    OG image compressed to **<300 KB** at `/public/images/prev.jpg`, hardcoded in
-   Meta.astro. Full recipe: workflow skill `references/tinacms-dashboard.md`
+   Meta.astro. Full recipe: [`docs/tinacms-dashboard.md`](docs/tinacms-dashboard.md)
    → "Favicon + OG preview".
-6. Launch: register services + point the domain — see the workflow skill's
-   `references/deploy-handoff-and-services.md`.
+6. Launch: register services + point the domain →
+   [`docs/deploy-handoff-and-services.md`](docs/deploy-handoff-and-services.md).
 
 ## Path Aliases
 
@@ -121,7 +141,7 @@ Example: `import { SITE } from "@data/constants";`
   `settings/site.json`), **business** (LocalBusiness schema, `business/info.json`).
   Admin at a hidden path (`studio-admin` — change per project in tina/config +
   tsconfig exclude + .gitignore). Local vs TinaCloud via `TINA_*` env. Details:
-  workflow skill `references/tinacms-dashboard.md`.
+  [`docs/tinacms-dashboard.md`](docs/tinacms-dashboard.md).
 - **Contact form** — [functions/api/contact.ts](functions/api/contact.ts)
   (Cloudflare Pages Function → Resend) + [ContactForm.astro](src/components/sections/ContactForm.astro)
   - [contact-form.ts](src/assets/scripts/contact-form.ts) (fetch + honeypot +
@@ -148,8 +168,8 @@ Example: `import { SITE } from "@data/constants";`
   realfavicongenerator + a fixed `<300 KB` OG image on a real project.
 - **Deploy** — Cloudflare Pages (Pages flow, framework Astro, build `pnpm build`,
   output `dist`) + Netlify mirror. Env changes need a redeploy. Full launch +
-  domain migration + handoff: workflow skill
-  `references/deploy-handoff-and-services.md`.
+  domain migration + handoff:
+  [`docs/deploy-handoff-and-services.md`](docs/deploy-handoff-and-services.md).
 - **Performance (PageSpeed 100 — apply the playbook by default).** Baked in:
   inline critical CSS (`build.inlineStylesheets: 'always'`), interaction JS
   lazy-booted off the critical path in [MainLayout](src/layouts/MainLayout.astro)
