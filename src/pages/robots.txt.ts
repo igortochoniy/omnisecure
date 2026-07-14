@@ -1,32 +1,10 @@
-// https://docs.astro.build/en/guides/integrations-guide/sitemap/#usage
+// robots.txt is edited in the CMS (Site settings → robots.txt) — see
+// src/data_files/settings/site.json. Keep the Sitemap line and update its domain
+// on launch.
 import type { APIRoute } from 'astro';
+import settings from '@data/settings/site.json';
 
-const robotsTxt = `
-User-agent: Googlebot
-Disallow:
-Allow: /
-Crawl-delay: 10
-
-User-agent: Yandex
-Disallow:
-Allow: /
-Crawl-delay: 2
-
-User-agent: archive.org_bot
-Disallow:
-Allow: /
-Crawl-delay: 2
-
-User-agent: *
-Disallow: /
-
-Sitemap: ${new URL('sitemap-index.xml', import.meta.env.SITE).href}
-`.trim();
-
-export const GET: APIRoute = () => {
-  return new Response(robotsTxt, {
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-    },
+export const GET: APIRoute = () =>
+  new Response(settings.robotsTxt.trim() + '\n', {
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
   });
-};

@@ -1,0 +1,43 @@
+name: CI
+
+# Gate before merging to main: typecheck + build + format. Catches a broken
+# build/types BEFORE Cloudflare deploys it. (Build skips the TinaCMS admin when
+# TINA_* secrets are absent — see build.mjs — so no keys are needed in CI.)
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm build
+
+  # Performance budget gate — runs Lighthouse against the built dist and asserts
+  # the thresholds in lighthouserc.json (tune per project). Median of 3 runs to
+  # damp CI variance. Perf/CLS block; a11y/SEO/metrics warn.
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: ./lighthouserc.json
+          temporaryPublicStorage: true

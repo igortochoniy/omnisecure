@@ -14,6 +14,7 @@ const {
   lang = 'en',
   customDescription = null,
   customOgTitle = null,
+  noindex = false,
 } = Astro.props;
 
 // Interface to type-check the properties
@@ -24,6 +25,7 @@ interface Props {
   lang?: string;
   customDescription?: string | null;
   customOgTitle?: string | null;
+  noindex?: boolean;
 }
 ---
 
@@ -35,9 +37,17 @@ interface Props {
       structuredData={structuredData}
       customDescription={customDescription}
       customOgTitle={customOgTitle}
+      noindex={noindex}
     />
     {/* Define the title of the page */}
     <title>{title}</title>
+    {
+      /* Conversion tracking loads eagerly (tiny, no deps) so the first tel: click
+        is never missed. Provider events land in Plausible/GA if present. */
+    }
+    <script>
+      import '@scripts/analytics';
+    </script>
     <script is:inline>
       // Script to handle dark mode. It will check if the theme is stored in localStorage or if dark theme is preferred by system settings
       if (
@@ -50,8 +60,28 @@ interface Props {
         document.documentElement.classList.remove('dark');
       }
     </script>
+    {
+      /* Lazy-load interaction JS (Lenis, + your GSAP/etc.) OFF the critical path:
+        boot on idle or first interaction, whichever comes first. Keeps it out of
+        the initial request chain / TBT window (PageSpeed playbook). Add more
+        lazy imports inside boot() as the site grows. */
+    }
     <script>
-      import '@scripts/lenisSmoothScroll.js';
+      let started = false;
+      const events = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
+      const boot = () => {
+        if (started) return;
+        started = true;
+        events.forEach(e => window.removeEventListener(e, boot));
+        import('@scripts/lenisSmoothScroll.js');
+        import('@scripts/contact-form');
+      };
+      events.forEach(e => window.addEventListener(e, boot, { passive: true }));
+      if (typeof window.requestIdleCallback === 'function') {
+        window.requestIdleCallback(boot, { timeout: 2000 });
+      } else {
+        window.addEventListener('load', () => setTimeout(boot, 200));
+      }
     </script>
   </head>
   <body

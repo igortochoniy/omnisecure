@@ -1,21 +1,46 @@
 # Project AI Guide
 
-For AI assistants (Claude, Cursor, Copilot, etc.): this file describes the
-project structure and conventions of this **clean landing-page base**, derived
-from the ScrewFast template with blog, docs, products, insights, auth and i18n
-stripped out. See [README.md](README.md) for human-facing setup.
+For AI assistants (Claude, Cursor, Copilot, etc.): this is the **studio starter**
+— a clean Astro landing base (derived from ScrewFast, stripped down) preloaded
+with the reusable infrastructure a client site needs: a **TinaCMS dashboard**, a
+**Resend contact form**, SEO/schema, and Cloudflare Pages deploy wiring. Clone it,
+fill in the content, ship. See [README.md](README.md) for human-facing setup.
+
+> **Methodology:** follow the `astro-landing-workflow` skill — build playbook
+> (PageSpeed 100, conventions, component patterns) plus `references/` for the CMS
+> dashboard, service registration (GitHub/TinaCloud/Cloudflare/Resend/DMARC),
+> domain migration, and client handoff.
 
 ## Project Overview
 
-A minimal Astro 5 landing-page starter. Stack: Astro 5, Tailwind v4 (via
-`@tailwindcss/vite`), Lenis (smooth scroll), GSAP (available, not yet used).
-There are no content collections, no Starlight docs, no Preline, and a single
-locale (English).
+Stack: Astro (static SSG), Tailwind v4 (`@tailwindcss/vite`), Lenis smooth scroll,
+GSAP (available), a Content-Collections **blog**, **TinaCMS** (Git-CMS dashboard),
+a **Cloudflare Pages Function** contact form (Resend). Single locale (English).
+Package manager **pnpm** via corepack.
 
 The homepage ([src/pages/index.astro](src/pages/index.astro)) is an intentionally
-empty canvas — apply your own design there. The original ScrewFast landing
-**section components are kept as reference** under `src/components/sections/`
-(see below) so you can copy patterns from them.
+empty canvas — apply the client's design there. Original ScrewFast landing
+**section components are kept as reference** under `src/components/sections/`, plus
+a ready **ContactForm.astro** section wired to the form Function.
+
+## New project quickstart
+
+1. `cp .env.example .env` (leave TINA\_\* empty for local editing).
+2. `pnpm install` → `pnpm cms` (site + local admin at `/studio-admin`) or
+   `pnpm dev` (site only).
+3. Fill in: `src/data_files/constants.ts` (SITE/OG), `business/info.json`
+   (schema), `seo/*.json` (one per page), brand tokens in
+   `src/assets/styles/global.css`, images in `src/images/`.
+4. Build the homepage + pages; add blog posts in the CMS or `src/content/blog/`.
+5. **Favicon & social preview (manual, per project — the locksmith way):**
+   generate a favicon pack at realfavicongenerator.net → drop in `/public`, wire
+   the tags in [Meta.astro](src/components/Meta.astro), and delete the
+   `favicon.ico.ts` + `manifest.json.ts` routes (they conflict). Add a **1200×630**
+   OG image compressed to **<300 KB** at `/public/images/prev.jpg`, hardcoded in
+   Meta.astro. Full recipe: workflow skill `references/tinacms-dashboard.md`
+   → "Favicon + OG preview".
+6. Launch: register services + point the domain — see the workflow skill's
+   `references/deploy-handoff-and-services.md`.
 
 ## Path Aliases
 
@@ -35,8 +60,8 @@ Example: `import { SITE } from "@data/constants";`
 
 ## Key Folders
 
-| Purpose                | Path                               | Notes                                                                                                                         |
-| ---------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| Purpose                | Path                               | Notes                                                                                                                        |
+| ---------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | Layout                 | [src/layouts/](src/layouts/)       | [MainLayout.astro](src/layouts/MainLayout.astro) wraps Navbar, `<slot />`, FooterSection; loads global.css + Lenis.          |
 | Pages                  | [src/pages/](src/pages/)           | File-based routing. `index.astro` (home), `404.astro`, plus generated `favicon.ico.ts`, `manifest.json.ts`, `robots.txt.ts`. |
 | Reusable UI & sections | [src/components/](src/components/) | `sections/` (reference landing/features/testimonials/pricing/FAQ + active Navbar/Footer); `ui/` for buttons, blocks, etc.    |
@@ -81,9 +106,59 @@ Example: `import { SITE } from "@data/constants";`
 
 ## Development Commands
 
-- `pnpm dev` — run dev server (http://localhost:4321)
-- `pnpm build` — typecheck (`astro check`), build, then HTML minify ([process-html.mjs](process-html.mjs))
-- `pnpm preview` — preview production build
+- `pnpm dev` — site only (http://localhost:4321)
+- `pnpm cms` — site + local TinaCMS admin (`tinacms dev -c "astro dev"`), edit at `/studio-admin`
+- `pnpm build` — runs [build.mjs](build.mjs): builds the CMS admin **only if**
+  `TINA_*` env is set, then `astro check` + build + HTML minify. So it builds out
+  of the box with no keys.
+- `pnpm preview --host` — preview the production build on the LAN (phone checks)
+
+## Studio infrastructure (built in)
+
+- **TinaCMS** ([tina/config.ts](tina/config.ts)) — collections: **blog**, **seo**
+  (per-page meta + noindex + sitemapExclude, `src/data_files/seo/*.json`),
+  **settings** (global noindex, robots.txt, head/body code injection,
+  `settings/site.json`), **business** (LocalBusiness schema, `business/info.json`).
+  Admin at a hidden path (`studio-admin` — change per project in tina/config +
+  tsconfig exclude + .gitignore). Local vs TinaCloud via `TINA_*` env. Details:
+  workflow skill `references/tinacms-dashboard.md`.
+- **Contact form** — [functions/api/contact.ts](functions/api/contact.ts)
+  (Cloudflare Pages Function → Resend) + [ContactForm.astro](src/components/sections/ContactForm.astro)
+  - [contact-form.ts](src/assets/scripts/contact-form.ts) (fetch + honeypot +
+    native fallback). Env: `RESEND_API_KEY`, `CONTACT_TO`, `CONTACT_FROM` (verified
+    domain). **Hardening (built in):** server-side length caps; optional
+    `TURNSTILE_SECRET` (Turnstile — also add the widget + a `cf-turnstile` field
+    with your site key to the form, and load the Turnstile script); optional
+    `ALERT_WEBHOOK` + a failure log so a lead is never lost silently.
+- **Conversion tracking** — [analytics.ts](src/assets/scripts/analytics.ts)
+  (loaded eagerly): auto-tracks `tel:` clicks (`call_click`) + form success
+  (`form_submit`), provider-agnostic (Plausible/GA if wired via CMS headCode).
+  Enable **Cloudflare Web Analytics** (free, cookieless) in the Pages dashboard.
+- **Security + cache headers** — [public/\_headers](public/_headers)
+  (X-Content-Type-Options, Referrer-Policy, X-Frame-Options, HSTS,
+  Permissions-Policy + immutable cache on hashed assets). Add a tuned CSP per
+  project if needed (mind the CMS `headCode` injection).
+- **Accessibility** — CSS `prefers-reduced-motion` reset in `global.css` (JS
+  animations must guard too); use real `<label>`s. Run a Lighthouse a11y ≥ 95 +
+  keyboard pass before handoff.
+- **SEO/schema** — [Meta.astro](src/components/Meta.astro) reads settings
+  (noindex) + business (LocalBusiness JSON-LD); [robots.txt.ts](src/pages/robots.txt.ts)
+  serves the CMS robots; [astro.config.mjs](astro.config.mjs) drops noindex pages
+  from the sitemap. Favicon/OG: template defaults — swap to
+  realfavicongenerator + a fixed `<300 KB` OG image on a real project.
+- **Deploy** — Cloudflare Pages (Pages flow, framework Astro, build `pnpm build`,
+  output `dist`) + Netlify mirror. Env changes need a redeploy. Full launch +
+  domain migration + handoff: workflow skill
+  `references/deploy-handoff-and-services.md`.
+- **Performance (PageSpeed 100 — apply the playbook by default).** Baked in:
+  inline critical CSS (`build.inlineStylesheets: 'always'`), interaction JS
+  lazy-booted off the critical path in [MainLayout](src/layouts/MainLayout.astro)
+  (add more `import()`s inside `boot()`), Brotli compression. When building:
+  images via `astro:assets` (AVIF+WebP, responsive `widths`+`sizes`, raster in
+  `src/images/`); self-host fonts (`font-display: swap`); animate only
+  `transform`/`opacity`; split long ScrollTrigger setup into `setTimeout(0)`
+  groups; batch DOM reads. Full list + gotchas: `astro-landing-workflow` skill →
+  Performance playbook.
 
 ## Recommendations for AI
 

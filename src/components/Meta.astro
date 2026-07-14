@@ -1,6 +1,8 @@
 ---
 import { getImage } from 'astro:assets';
 import { OG, SEO, SITE } from '@data/constants';
+import settings from '@data/settings/site.json';
+import business from '@data/business/info.json';
 import faviconSvgSrc from '@images/icon.svg';
 import faviconSrc from '@images/icon.png';
 
@@ -22,6 +24,7 @@ const {
   structuredData = defaultProps.structuredData,
   customDescription = defaultProps.customDescription,
   customOgTitle = defaultProps.customOgTitle,
+  noindex = false,
 } = Astro.props;
 
 // Use custom description if provided, otherwise use default meta
@@ -82,6 +85,75 @@ const appleTouchIcon = await getImage({
   height: 180,
   format: 'png',
 });
+
+// noindex: global toggle (Site settings) OR this page's own toggle (SEO).
+const robotsNoindex = settings.noindex || noindex;
+
+// LocalBusiness structured data from the CMS "Business info" fields. Emitted
+// only when name + phone are present; empty fields are omitted. (Swap @type to
+// "Organization" for non-local businesses.)
+const b = business as Record<string, any>;
+const address: Record<string, any> = { '@type': 'PostalAddress' };
+if (b.streetAddress) address.streetAddress = b.streetAddress;
+if (b.addressLocality) address.addressLocality = b.addressLocality;
+if (b.addressRegion) address.addressRegion = b.addressRegion;
+if (b.postalCode) address.postalCode = b.postalCode;
+if (b.addressCountry) address.addressCountry = b.addressCountry;
+const localBusinessLd: Record<string, any> | null =
+  b.name && b.telephone
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'LocalBusiness',
+        name: b.name,
+        telephone: b.telephone,
+        url: siteURL,
+        image: socialImage,
+        ...(b.priceRange ? { priceRange: b.priceRange } : {}),
+        ...(b.areaServed ? { areaServed: b.areaServed } : {}),
+        ...(Object.keys(address).length > 1 ? { address } : {}),
+        ...(b.latitude && b.longitude
+          ? {
+              geo: {
+                '@type': 'GeoCoordinates',
+                latitude: b.latitude,
+                longitude: b.longitude,
+              },
+            }
+          : {}),
+        ...(b.open24_7
+          ? {
+              openingHoursSpecification: [
+                {
+                  '@type': 'OpeningHoursSpecification',
+                  dayOfWeek: [
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday',
+                    'Sunday',
+                  ],
+                  opens: '00:00',
+                  closes: '23:59',
+                },
+              ],
+            }
+          : {}),
+        ...(Array.isArray(b.sameAs) && b.sameAs.length
+          ? { sameAs: b.sameAs }
+          : {}),
+        ...(b.ratingValue && b.reviewCount
+          ? {
+              aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: b.ratingValue,
+                reviewCount: b.reviewCount,
+              },
+            }
+          : {}),
+      }
+    : null;
 ---
 
 {
@@ -95,9 +167,19 @@ const appleTouchIcon = await getImage({
     />
   )
 }
+{/* LocalBusiness schema from the CMS "Business info" fields. */}
+{
+  localBusinessLd && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(localBusinessLd)}
+    />
+  )
+}
 {/* Define the character set, description, author, and viewport settings */}
 <meta charset="utf-8" />
 <meta content={description} name="description" />
+{robotsNoindex && <meta name="robots" content="noindex, nofollow" />}
 <meta name="web_author" content={author} />
 <meta
   name="viewport"

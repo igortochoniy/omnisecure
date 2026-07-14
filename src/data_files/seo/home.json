@@ -1,0 +1,6 @@
+{
+  "metaTitle": "Home | Astro Studio Starter",
+  "metaDescription": "Edit this in the CMS (SEO → home) or in src/data_files/seo/home.json. One SEO file per page.",
+  "noindex": false,
+  "sitemapExclude": false
+}

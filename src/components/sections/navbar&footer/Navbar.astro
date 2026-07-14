@@ -14,7 +14,7 @@ const homeUrl = '/';
 >
   {/* Navigation container */}
   <nav
-    class="relative mx-2 w-full rounded-[36px] border border-yellow-100/40 bg-yellow-50/60 px-4 py-3 backdrop-blur-md md:flex md:items-center md:justify-between md:px-6 md:py-0 lg:px-8 xl:mx-auto dark:border-neutral-700/40 dark:bg-neutral-800/80 dark:backdrop-blur-md"
+    class="relative z-[2] mx-2 w-full rounded-[36px] border border-yellow-100/40 bg-yellow-50/60 px-4 py-3 backdrop-blur-md md:flex md:items-center md:justify-between md:px-6 md:py-0 lg:px-8 xl:mx-auto dark:border-neutral-700/40 dark:bg-neutral-800/80 dark:backdrop-blur-md"
     aria-label="Global"
   >
     <div class="flex items-center justify-between">
@@ -30,13 +30,14 @@ const homeUrl = '/';
       <div class="mr-5 ml-auto md:hidden">
         <button
           type="button"
-          class="hs-collapse-toggle flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-neutral-600 transition duration-300 hover:bg-neutral-200 disabled:pointer-events-none disabled:opacity-50 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:outline-hidden"
-          data-hs-collapse="#navbar-collapse-with-animation"
-          aria-controls="navbar-collapse-with-animation"
+          id="menu-toggle"
+          class="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-neutral-600 transition duration-300 hover:bg-neutral-200 disabled:pointer-events-none disabled:opacity-50 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:outline-hidden"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <svg
-            class="hs-collapse-open:hidden h-[1.25rem] w-[1.25rem] shrink-0"
+            class="menu-icon-open h-[1.25rem] w-[1.25rem] shrink-0"
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -51,7 +52,7 @@ const homeUrl = '/';
             <line x1="3" x2="21" y1="18" y2="18"></line>
           </svg>
           <svg
-            class="hs-collapse-open:block hidden h-[1.25rem] w-[1.25rem] shrink-0"
+            class="menu-icon-close hidden h-[1.25rem] w-[1.25rem] shrink-0"
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -73,8 +74,7 @@ const homeUrl = '/';
     </div>
     {/* Contains navigation links */}
     <div
-      id="navbar-collapse-with-animation"
-      class="hs-collapse hidden grow basis-full overflow-hidden transition-all duration-300 md:block"
+      class="hidden grow basis-full overflow-hidden transition-all duration-300 md:block"
     >
       {/* Navigation links container */}
       <div
@@ -94,7 +94,79 @@ const homeUrl = '/';
       </div>
     </div>
   </nav>
+
+  {/* Mobile overlay menu (1:1 with the locksmith pattern). */}
+  <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile">
+    {strings.navBarLinks.map(link => <a href={link.url}>{link.name}</a>)}
+  </nav>
 </header>
+{
+  /* Full-screen mobile overlay menu — 1:1 with the locksmith pattern (hamburger
+    + overlay), vanilla toggle since Preline was removed. */
+}
+<style>
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background: #0a0a0a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+  header.menu-open .mobile-menu {
+    opacity: 1;
+    visibility: visible;
+  }
+  .mobile-menu a {
+    font-size: 22px;
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: opacity 0.15s;
+  }
+  .mobile-menu a:hover {
+    opacity: 1;
+  }
+  /* Never show the overlay on desktop (matches the md hamburger breakpoint). */
+  @media (min-width: 768px) {
+    .mobile-menu {
+      display: none;
+    }
+  }
+</style>
+<script>
+  const header = document.querySelector('header');
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  if (header && menuToggle && mobileMenu) {
+    const iconOpen = menuToggle.querySelector('.menu-icon-open');
+    const iconClose = menuToggle.querySelector('.menu-icon-close');
+    const setOpen = (open: boolean) => {
+      header.classList.toggle('menu-open', open);
+      menuToggle.setAttribute('aria-expanded', String(open));
+      iconOpen?.classList.toggle('hidden', open);
+      iconClose?.classList.toggle('hidden', !open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
+    menuToggle.addEventListener('click', () =>
+      setOpen(!header.classList.contains('menu-open'))
+    );
+    mobileMenu
+      .querySelectorAll('a')
+      .forEach(a => a.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  }
+</script>
 {/* Theme Appearance script to manage light/dark modes */}
 <script is:inline>
   const HSThemeAppearance = {

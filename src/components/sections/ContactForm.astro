@@ -1,0 +1,103 @@
+---
+// Generic contact form section. Posts to the /api/contact Cloudflare Function
+// (Resend). Progressive enhancement via @scripts/contact-form. Restyle freely.
+interface Props {
+  id?: string;
+  heading?: string;
+  lead?: string;
+}
+const {
+  id = 'contact',
+  heading = 'Get in touch',
+  lead = "Send us a message and we'll get back to you shortly.",
+} = Astro.props;
+---
+
+<section id={id} class="scroll-mt-24 bg-neutral-50 py-20 dark:bg-neutral-900">
+  <div class="mx-auto w-full max-w-2xl px-4">
+    <h2
+      class="text-3xl font-semibold tracking-tight text-neutral-900 dark:text-white"
+    >
+      {heading}
+    </h2>
+    <p class="mt-3 text-neutral-600 dark:text-neutral-300">{lead}</p>
+
+    <form
+      class="contact-form mt-8 grid gap-4"
+      action="/api/contact"
+      method="POST"
+      novalidate
+    >
+      <div class="grid gap-4 sm:grid-cols-2">
+        <label class="grid gap-1.5 text-sm">
+          <span class="font-medium text-neutral-700 dark:text-neutral-200"
+            >Name</span
+          >
+          <input
+            name="name"
+            type="text"
+            required
+            autocomplete="name"
+            class="rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800"
+          />
+        </label>
+        <label class="grid gap-1.5 text-sm">
+          <span class="font-medium text-neutral-700 dark:text-neutral-200"
+            >Phone</span
+          >
+          <input
+            name="phone"
+            type="tel"
+            autocomplete="tel"
+            class="rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800"
+          />
+        </label>
+      </div>
+      <label class="grid gap-1.5 text-sm">
+        <span class="font-medium text-neutral-700 dark:text-neutral-200"
+          >Email</span
+        >
+        <input
+          name="email"
+          type="email"
+          autocomplete="email"
+          class="rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800"
+        />
+      </label>
+      <label class="grid gap-1.5 text-sm">
+        <span class="font-medium text-neutral-700 dark:text-neutral-200"
+          >Message</span
+        >
+        <textarea
+          name="message"
+          rows="4"
+          class="rounded-lg border-neutral-300 dark:border-neutral-700 dark:bg-neutral-800"
+        ></textarea>
+      </label>
+
+      {/* Honeypot — hidden from users, bots fill it. */}
+      <input
+        type="text"
+        name="_gotcha"
+        tabindex="-1"
+        autocomplete="off"
+        class="hidden"
+        aria-hidden="true"
+      />
+
+      <button
+        type="submit"
+        class="mt-2 justify-self-start rounded-lg bg-neutral-900 px-6 py-3 font-medium text-white transition hover:opacity-90 dark:bg-white dark:text-neutral-900"
+      >
+        Send message
+      </button>
+
+      <p
+        class="contact-status text-sm data-[state=error]:text-red-600 data-[state=ok]:text-green-600"
+        role="status"
+        aria-live="polite"
+      >
+      </p>
+    </form>
+  </div>
+</section>
