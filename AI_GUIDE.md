@@ -18,7 +18,7 @@ need outputs (keys, URLs, content) from earlier ones.
 
 1. **Intake & scope** — gather the brief, agree the tier/SOW → [`docs/intake-and-pricing.md`](docs/intake-and-pricing.md).
 2. **Design → build** — Astro SSG from the design; fill the empty `index.astro`
-   - sub-pages; follow the conventions + PageSpeed playbook (below / skill).
+   and add sub-pages; follow the conventions + PageSpeed playbook (below / skill).
 3. **CMS** — the TinaCMS dashboard is already wired; configure per project →
    [`docs/tinacms-dashboard.md`](docs/tinacms-dashboard.md).
 4. **Favicon & OG** — manual, per project (quickstart step 5).
@@ -107,10 +107,11 @@ Example: `import { SITE } from "@data/constants";`
 `testimonials` (TestimonialsSection, TestimonialsSectionAlt, TestimonialItem),
 `pricing` (PricingSection), `misc` (FAQ).
 
-> ⚠️ Preline was removed. Interactive bits in these reference sections that
-> relied on Preline — the FAQ accordion (`hs-accordion`), FeaturesNavs tabs
-> (`hs-tab`), and the Navbar mobile collapse (`hs-collapse`) — are **not
-> interactive** until you wire your own JS. They still render statically.
+> ⚠️ Preline was removed. The **Navbar mobile menu is already rewired** to a
+> working vanilla full-screen overlay (see Navbar.astro). The remaining
+> Preline-dependent bits in the REFERENCE-only sections — the FAQ accordion
+> (`hs-accordion`) and FeaturesNavs tabs (`hs-tab`) — are still **not
+> interactive** until you wire your own JS; they render statically.
 
 ## Conventions
 
