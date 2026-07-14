@@ -46,9 +46,11 @@ const socialImageRes = await getImage({
 });
 const socialImage = Astro.url.origin + socialImageRes.src; // Get the full URL of the image (https://stackoverflow.com/a/9858694)
 
+// Single-language by default — only the self-referencing en alternate. Add
+// locales here (and the matching /<prefix>/ routes) if the site goes multilingual;
+// don't leave a hreflang pointing at a route that 404s.
 const languages: { [key: string]: string } = {
   en: '',
-  fr: 'fr',
 };
 
 function createHref(lang: string, prefix: string, path: string): string {
