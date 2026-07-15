@@ -1,0 +1,52 @@
+---
+// Semantic breadcrumb nav + BreadcrumbList JSON-LD (SEO rich result on
+// sub-pages). Pass the trail; the last item is the current page (no href, not
+// linked). Restyle the markup freely — the JSON-LD is what search engines read.
+//
+//   <Breadcrumbs items={[{ name: 'Home', href: '/' },
+//                        { name: 'Services', href: '/services' },
+//                        { name: 'Emergency Locksmith' }]} />
+interface Crumb {
+  name: string;
+  href?: string;
+}
+interface Props {
+  items: Crumb[];
+}
+const { items } = Astro.props;
+const base = Astro.site ?? Astro.url.origin;
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.name,
+    ...(c.href ? { item: new URL(c.href, base).href } : {}),
+  })),
+};
+---
+
+<nav
+  aria-label="Breadcrumb"
+  class="text-sm text-neutral-500 dark:text-neutral-400"
+>
+  <ol class="flex flex-wrap items-center gap-2">
+    {
+      items.map((c, i) => (
+        <li class="flex items-center gap-2">
+          {c.href ? (
+            <a href={c.href} class="hover:underline">
+              {c.name}
+            </a>
+          ) : (
+            <span aria-current="page">{c.name}</span>
+          )}
+          {i < items.length - 1 && <span aria-hidden="true">/</span>}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />

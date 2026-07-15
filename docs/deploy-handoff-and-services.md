@@ -194,6 +194,8 @@ the old host after a few stable days.
       favicon checked (realfavicongenerator favicon-checker).
 - [ ] Global `noindex` OFF; robots.txt correct; `sitemap-index.xml` submitted to
       Google Search Console (verify via the google-site-verification TXT).
+- [ ] **`www` → apex 301** redirect (Cloudflare → domain → Rules → Redirect
+      Rules) so `www` isn't a duplicate. Full SEO pass: see `seo-checklist.md`.
 - [ ] Analytics live (Cloudflare Web Analytics enabled in the Pages dashboard;
       `call_click`/`form_submit` events firing if a provider is wired).
 - [ ] `_headers` deployed (security + immutable asset cache).

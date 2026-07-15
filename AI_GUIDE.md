@@ -18,7 +18,8 @@ need outputs (keys, URLs, content) from earlier ones.
 
 1. **Intake & scope** — gather the brief, agree the tier/SOW → [`docs/intake-and-pricing.md`](docs/intake-and-pricing.md).
 2. **Design → build** — Astro SSG from the design; fill the empty `index.astro`
-   and add sub-pages; follow the conventions + PageSpeed playbook (below / skill).
+   and add sub-pages; follow the conventions + PageSpeed playbook (below / skill)
+   and the SEO checklist ([`docs/seo-checklist.md`](docs/seo-checklist.md)).
 3. **CMS** — the TinaCMS dashboard is already wired; configure per project →
    [`docs/tinacms-dashboard.md`](docs/tinacms-dashboard.md).
 4. **Favicon & OG** — manual, per project (quickstart step 5).
@@ -166,7 +167,10 @@ Example: `import { SITE } from "@data/constants";`
   (noindex) + business (LocalBusiness JSON-LD); [robots.txt.ts](src/pages/robots.txt.ts)
   serves the CMS robots; [astro.config.mjs](astro.config.mjs) drops noindex pages
   from the sitemap. Favicon/OG: template defaults — swap to
-  realfavicongenerator + a fixed `<300 KB` OG image on a real project.
+  realfavicongenerator + a fixed `<300 KB` OG image on a real project. Full
+  on-page + technical + off-site checklist: [`docs/seo-checklist.md`](docs/seo-checklist.md)
+  (unique meta, one h1, alt text, complete LocalBusiness, BreadcrumbList on
+  sub-pages, www→apex, GBP/Search Console, retrieval-bot stance).
 - **Deploy** — Cloudflare Pages (Pages flow, framework Astro, build `pnpm build`,
   output `dist`) + Netlify mirror. Env changes need a redeploy. Full launch +
   domain migration + handoff:
