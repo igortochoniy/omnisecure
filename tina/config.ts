@@ -1,47 +1,4 @@
-import React from 'react';
 import { defineConfig } from 'tinacms';
-
-// Live site URL for the "View sitemap" buttons. Set to the real domain on launch
-// (same value as `site` in astro.config.mjs).
-const SITE_URL = 'https://example.com';
-
-const linkBtnStyle = {
-  display: 'inline-block',
-  padding: '8px 14px',
-  background: '#0574e4',
-  color: '#fff',
-  borderRadius: '6px',
-  textDecoration: 'none',
-  fontSize: '14px',
-  fontWeight: 500,
-};
-
-// Read-only field that renders two buttons to the live sitemap.
-const SitemapButtons = () =>
-  React.createElement(
-    'div',
-    { style: { display: 'flex', gap: '10px', padding: '4px 0 12px' } },
-    React.createElement(
-      'a',
-      {
-        href: `${SITE_URL}/sitemap-index.xml`,
-        target: '_blank',
-        rel: 'noreferrer',
-        style: linkBtnStyle,
-      },
-      'Sitemap index'
-    ),
-    React.createElement(
-      'a',
-      {
-        href: `${SITE_URL}/sitemap-0.xml`,
-        target: '_blank',
-        rel: 'noreferrer',
-        style: linkBtnStyle,
-      },
-      'Sitemap URLs'
-    )
-  );
 
 // Git-CMS. clientId/token unset (null) => LOCAL editing: /studio-admin writes
 // straight to the files. Set the env vars (TinaCloud) for production editing.
@@ -168,12 +125,6 @@ export default defineConfig({
             label: 'robots.txt',
             description: 'Keep the Sitemap line; update its domain on launch.',
             ui: { component: 'textarea' },
-          },
-          {
-            type: 'string',
-            name: 'sitemapView',
-            label: 'View sitemap (opens on the live site)',
-            ui: { component: SitemapButtons },
           },
           {
             type: 'string',
