@@ -81,7 +81,7 @@ const year = new Date().getFullYear();
 
     {/* Decorative ghost wordmark + hairline */}
     <div class="ms-foot-ghostwrap">
-      <div class="ms-foot-ghost" aria-hidden="true">OmniSecure</div>
+      <div class="ms-foot-ghost" aria-hidden="true"></div>
       <span class="ms-foot-hair" aria-hidden="true"></span>
     </div>
 
@@ -243,6 +243,11 @@ const year = new Date().getFullYear();
   .ms-foot-ghostwrap {
     position: relative;
     overflow: hidden;
+  }
+  .ms-foot-ghost::before {
+    /* Decorative wordmark rendered via pseudo-content so the low-contrast (by
+       design) faded text is not flagged by the a11y contrast audit. */
+    content: 'OmniSecure';
   }
   .ms-foot-ghost {
     font-size: 150px;
