@@ -97,6 +97,40 @@
   --color-zinc-800: oklch(0.274 0.006 286.033);
   --color-zinc-900: oklch(0.21 0.006 285.885);
   --color-zinc-950: oklch(0.141 0.005 285.823);
+
+  /* ── Mass Secure brand tokens → utilities bg-brand, text-navy, border-hair … ── */
+  --color-brand: #2b57f0;
+  --color-brand-hover: #4a72ff;
+  --color-brand-light: #7ea0ff;
+  --color-brand-soft: #a9c2ff;
+  --color-navy: #0f1734;
+  --color-navy-deep: #090e21;
+  --color-navy-card: #182147;
+  --color-ink: #0c1023;
+  --color-ink-700: #1a1d29;
+  --color-muted: #6b6f7d;
+  --color-muted-2: #545867;
+  --color-ondark: #aeb5d1;
+  --color-ondark-2: #9aa2c2;
+  --color-ondark-faint: #7c8bb8;
+  --color-lavender: #ecf0fb;
+  --color-offwhite: #f5f6fb;
+  --color-success: #1f9d55;
+  --color-success-mint: #7ff0b0;
+  --color-success-live: #3ad07f;
+  --color-gold: #f5a623;
+  --color-hair: #e6e9f3;
+
+  --font-sans: 'Manrope Variable', system-ui, sans-serif;
+
+  /* Design collapses the layout at 900px (nav → burger, grids → 1-col) and
+     normalises headings at 700px. Extra breakpoints → `nav:` / `xs:` variants. */
+  --breakpoint-xs: 43.75rem;
+  --breakpoint-nav: 56.25rem;
+
+  --radius-pill: 999px;
+  --radius-card: 20px;
+  --radius-panel: 28px;
 }
 
 /*
@@ -133,5 +167,216 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ── Mass Secure base ── */
+@layer base {
+  html {
+    scrollbar-gutter: stable;
+  }
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+}
+
+/* Pulsing "ping" dot — a small dot with an absolutely-positioned copy that
+   scales out and fades. Gate motion with prefers-reduced-motion. */
+@keyframes msPing {
+  0% {
+    transform: scale(1);
+    opacity: 0.65;
+  }
+  70%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.ping-dot {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-success-live);
+  flex: none;
+}
+.ping-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: inherit;
+  animation: msPing 2s ease-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ping-dot::after {
+    animation: none;
+  }
+}
+
+/* ── Shared section headings (kicker / H2 / lead) — exact design values ──
+   H2 size varies per section: base 52px (services/reviews); overrides for
+   pricing (40), faq (44), contact/emergency (38) live in those components. */
+.ms-kicker {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+.ms-h2 {
+  margin-top: 14px;
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -1.8px;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.ms-lead {
+  margin-top: 20px;
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--color-muted);
+  text-wrap: pretty;
+}
+/* Design normalises every H2 to 30px and drops the decorative <br> at ≤700px.
+   Emergency & Contact headings don't carry `.ms-h2`, so normalise them too. */
+@media (max-width: 43.75rem) {
+  .ms-h2,
+  .ms-emg-h2,
+  .ms-contact-h2,
+  .ms-contact-formtitle {
+    font-size: 30px !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.8px !important;
+  }
+  .ms-h2 br {
+    display: none;
+  }
+  .ms-lead {
+    font-size: 16px;
+  }
+}
+
+/* ── Shared CTA buttons (design's .msl-cta) — used across hero/pricing/emergency
+   /contact. Blue = primary, white = secondary; skewed shine sweep + icon tilt on
+   hover. Exact design values. ── */
+.ms-cta {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 16.5px;
+  border-radius: 14px;
+  text-decoration: none;
+  will-change: transform;
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 0.3s ease;
+}
+.ms-cta > * {
+  position: relative;
+  z-index: 1;
+}
+.ms-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 45%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  transform: skewX(-18deg);
+  transition: left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 0;
+  pointer-events: none;
+}
+.ms-cta:hover::before {
+  left: 130%;
+}
+.ms-cta-ico {
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.ms-cta:hover .ms-cta-ico {
+  transform: rotate(-14deg) scale(1.08);
+}
+.ms-cta-blue {
+  background: #2b57f0;
+  color: #fff;
+  padding: 16px 28px;
+  border: 1px solid transparent;
+  box-shadow: 0 14px 32px rgba(43, 87, 240, 0.5);
+}
+.ms-cta-blue:hover {
+  transform: translateY(-3px);
+  background: #4a72ff;
+  box-shadow:
+    0 20px 44px rgba(43, 87, 240, 0.6),
+    0 0 0 1px rgba(122, 160, 255, 0.5);
+}
+.ms-cta-white {
+  background: #ffffff;
+  color: #0f1633;
+  padding: 16px 26px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 28px rgba(10, 16, 40, 0.28);
+}
+.ms-cta-white:hover {
+  transform: translateY(-3px);
+  background: #f0f3ff;
+  box-shadow:
+    0 20px 44px rgba(10, 16, 40, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.9);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ms-cta,
+  .ms-cta:hover {
+    transform: none;
+  }
+  .ms-cta::before {
+    display: none;
+  }
+}
+
+/* Scroll-reveal: below-fold blocks fade up when they enter the viewport.
+   A guarded IntersectionObserver (see @scripts/reveals) toggles `.is-visible`.
+   NOTE: no `will-change` here on purpose — a persistent will-change/transform
+   creates a stacking context that stops backdrop-filter glass from sampling a
+   glow behind it. Since the transform settles to `none`, the context is gone
+   once the reveal finishes, so glass sections render correctly at rest.
+   Hero uses its own pure-CSS on-load fade so it paints without the lazy JS. */
+/* Gated behind `html.js` (set by an inline script in the layout) so that with
+   JS disabled the content is never left invisible. */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+html.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }

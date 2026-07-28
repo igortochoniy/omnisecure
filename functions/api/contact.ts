@@ -24,7 +24,13 @@ interface Ctx {
   env: Env;
 }
 
-const MAX = { name: 120, email: 200, phone: 40, message: 5000 } as const;
+const MAX = {
+  name: 120,
+  email: 200,
+  phone: 40,
+  service: 80,
+  message: 5000,
+} as const;
 
 // Verify a Cloudflare Turnstile token (only when TURNSTILE_SECRET is set).
 async function turnstileOk(
@@ -130,6 +136,7 @@ export const onRequestPost = async ({
   const name = (data.name || '').trim().slice(0, MAX.name);
   const email = (data.email || '').trim().slice(0, MAX.email);
   const phone = (data.phone || '').trim().slice(0, MAX.phone);
+  const service = (data.service || '').trim().slice(0, MAX.service);
   const message = (data.message || '').trim().slice(0, MAX.message);
 
   if (!name || (!phone && !email && !message)) {
@@ -145,6 +152,7 @@ export const onRequestPost = async ({
     `<p><strong>Name:</strong> ${escapeHtml(name)}</p>` +
     `<p><strong>Email:</strong> ${escapeHtml(email) || '—'}</p>` +
     `<p><strong>Phone:</strong> ${escapeHtml(phone) || '—'}</p>` +
+    `<p><strong>Service:</strong> ${escapeHtml(service) || '—'}</p>` +
     `<p><strong>Message:</strong> ${escapeHtml(message) || '—'}</p>`;
 
   try {

@@ -1,0 +1,309 @@
+---
+// Sticky site header (design handoff §4.1). Transparent over the hero; the
+// design specifies no colour change on scroll. Desktop: centered anchor nav +
+// blue call CTA. Below 900px (`nav`): nav + call label hide, hamburger opens a
+// full-screen overlay.
+import Button from '@components/ui/Button.astro';
+import { CONTACT } from '@data/constants';
+import logo from '@images/design/logo.svg'; // real design wordmark (extracted from the prototype)
+
+interface Props {
+  solid?: boolean;
+}
+// `solid` = opaque navy header for pages without a dark hero (legal pages).
+const { solid = false } = Astro.props;
+
+const navLinks = [
+  { name: 'Services', url: '/#services' },
+  { name: 'Pricing', url: '/#pricing' },
+  { name: 'Reviews', url: '/#reviews' },
+  { name: 'FAQ', url: '/#faq' },
+  { name: 'Contact', url: '/#contact' },
+];
+---
+
+{/* Design: header is absolute over the hero and scrolls away with it (not a
+   sticky bar). Legal/404 pages have no hero, so they use a sticky navy bar. */}
+<header
+  id="site-header"
+  class:list={[
+    'inset-x-0 top-0 z-50 w-full',
+    solid
+      ? 'sticky bg-navy-deep/95 shadow-[0_8px_30px_rgba(9,14,33,0.35)] backdrop-blur'
+      : 'absolute',
+  ]}
+>
+  <div
+    class="relative z-50 mx-auto flex max-w-[1200px] items-center justify-between gap-6 px-6 py-4"
+  >
+    {/* Logo — real design wordmark. TODO: swap for the client's final logo file. */}
+    <a href="/" class="flex-none" aria-label="Mass Secure Locksmith — home">
+      <img src={logo.src} alt="Mass Secure Locksmith" width="167" height="49" class="h-12 w-auto" />
+    </a>
+
+    {/* Desktop nav */}
+    <nav
+      class="hidden items-center gap-[30px] nav:flex"
+      aria-label="Primary"
+    >
+      {
+        navLinks.map(link => (
+          <a
+            href={link.url}
+            class="text-[15px] font-semibold text-white/80 transition-colors hover:text-white"
+          >
+            {link.name}
+          </a>
+        ))
+      }
+    </nav>
+
+    {/* Desktop call CTA */}
+    <div class="hidden nav:block">
+      <Button
+        variant="blue"
+        href={CONTACT.phoneHref}
+        icon="phone"
+        size="sm"
+        dataTrack="call_click"
+        ariaLabel={`Call us at ${CONTACT.phoneDisplay}`}
+      >
+        {CONTACT.phoneDisplay}
+      </Button>
+    </div>
+
+    {/* Hamburger (mobile) */}
+    <button
+      type="button"
+      id="menu-toggle"
+      class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-white nav:hidden"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      aria-label="Open menu"
+    >
+      <svg
+        class="menu-icon-open h-6 w-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      >
+        <line x1="3" x2="21" y1="7" y2="7"></line>
+        <line x1="3" x2="21" y1="12" y2="12"></line>
+        <line x1="3" x2="21" y1="17" y2="17"></line>
+      </svg>
+      <svg
+        class="menu-icon-close hidden h-6 w-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      >
+        <path d="M18 6 6 18"></path>
+        <path d="m6 6 12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  {/* Liquid-glass distortion filter (used by the mobile menu's glass layer) */}
+  <svg width="0" height="0" class="ms-glass-defs" aria-hidden="true">
+    <defs>
+      <filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.008 0.008"
+          numOctaves="2"
+          seed="92"
+          result="noise"></feTurbulence>
+        <feGaussianBlur in="noise" stdDeviation="2" result="blurred"></feGaussianBlur>
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="blurred"
+          scale="150"
+          xChannelSelector="R"
+          yChannelSelector="G"></feDisplacementMap>
+      </filter>
+    </defs>
+  </svg>
+
+  {/* Mobile dropdown sheet — spacious frosted / liquid glass */}
+  <div id="mobile-backdrop" class="mobile-backdrop" aria-hidden="true"></div>
+  <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile">
+    <div class="mobile-menu-inner">
+      {navLinks.map(link => <a href={link.url}>{link.name}</a>)}
+      <a href={CONTACT.phoneHref} class="mobile-call" data-track="call_click">
+        <svg
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          fill="none"
+          stroke="#fff"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z"></path>
+        </svg>
+        Call {CONTACT.phoneDisplay}
+      </a>
+    </div>
+  </nav>
+</header>
+
+<style>
+  /* Dim backdrop behind the sheet */
+  .mobile-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background: rgba(6, 10, 28, 0.5);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
+  }
+  header.menu-open .mobile-backdrop {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .ms-glass-defs {
+    position: absolute;
+  }
+
+  /* Spacious liquid-glass dropdown sheet */
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    isolation: isolate;
+    border-radius: 0 0 28px 28px;
+    box-shadow: 0 30px 60px rgba(6, 10, 28, 0.55);
+    padding: 104px 8px 40px;
+    transform: translateY(-14px);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.32s ease,
+      visibility 0.32s ease;
+  }
+  /* Tint + inner glass highlight */
+  .mobile-menu::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: 0 0 28px 28px;
+    background: linear-gradient(
+      180deg,
+      rgba(16, 24, 58, 0.62),
+      rgba(11, 17, 42, 0.72)
+    );
+    /* Dark vignette on the edges (was a light inner glow). */
+    box-shadow: inset 0 0 40px 4px rgba(4, 7, 22, 0.7);
+    border-bottom: 1px solid rgba(4, 7, 22, 0.5);
+    pointer-events: none;
+  }
+  /* Backdrop blur + liquid distortion of whatever is behind the sheet */
+  .mobile-menu::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 0 0 28px 28px;
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    filter: url(#glass-distortion);
+    -webkit-filter: url(#glass-distortion);
+    pointer-events: none;
+  }
+  header.menu-open .mobile-menu {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  .mobile-menu-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 22px;
+  }
+  .mobile-menu a {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    color: rgba(255, 255, 255, 0.9);
+    padding: 20px 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    transition: color 0.15s;
+  }
+  .mobile-menu a:hover {
+    color: #fff;
+  }
+  .mobile-menu .mobile-call {
+    justify-content: center;
+    margin-top: 26px;
+    background: var(--color-brand);
+    color: #fff;
+    font-size: 16.5px;
+    padding: 17px;
+    border-radius: 16px;
+    border-bottom: none;
+    font-weight: 700;
+    box-shadow: 0 14px 32px rgba(43, 87, 240, 0.5);
+  }
+  @media (min-width: 56.25rem) {
+    .mobile-menu,
+    .mobile-backdrop {
+      display: none;
+    }
+  }
+  /* Safari has no SVG-filter support on backdrops — fall back to plain frost. */
+  @supports (-webkit-touch-callout: none) {
+    .mobile-menu::after {
+      filter: none;
+      -webkit-filter: none;
+    }
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const backdrop = document.getElementById('mobile-backdrop');
+  if (header && toggle && menu) {
+    const iconOpen = toggle.querySelector('.menu-icon-open');
+    const iconClose = toggle.querySelector('.menu-icon-close');
+    const setOpen = (open: boolean) => {
+      header.classList.toggle('menu-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      iconOpen?.classList.toggle('hidden', open);
+      iconClose?.classList.toggle('hidden', !open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
+    toggle.addEventListener('click', () =>
+      setOpen(!header.classList.contains('menu-open'))
+    );
+    menu
+      .querySelectorAll('a')
+      .forEach(a => a.addEventListener('click', () => setOpen(false)));
+    backdrop?.addEventListener('click', () => setOpen(false));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  }
+</script>

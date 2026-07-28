@@ -1,0 +1,93 @@
+---
+// Services (design handoff §4.3) — offwhite section, 2×2 card grid.
+import ServiceCard from '@components/sections/ServiceCard.astro';
+import imgEmergency from '@images/design/svc-emergency.webp'; // real design photos
+import imgResidential from '@images/design/svc-residential.webp';
+import imgAutomotive from '@images/design/svc-automotive.webp';
+import imgCommercial from '@images/design/svc-commercial.webp';
+
+const cards = [
+  {
+    title: 'Emergency Locksmith',
+    copy: 'Locked out of your home, car or office? We answer around the clock and get you back in fast — no damage, no drama.',
+    image: imgEmergency,
+    alt: 'Locksmith unlocking a residential deadbolt during an emergency lockout',
+  },
+  {
+    title: 'Residential Locksmith',
+    copy: 'Lock changes, re-keys, deadbolt installs and smart locks to keep your family and home secure day and night.',
+    image: imgResidential,
+    alt: 'Technician installing a residential deadbolt lock',
+  },
+  {
+    title: 'Automotive Locksmith',
+    copy: 'Car lockouts, transponder and key-fob programming, ignition and broken-key removal for most makes and models.',
+    image: imgAutomotive,
+    alt: 'Driver locked out of a car, waiting for an automotive locksmith',
+  },
+  {
+    title: 'Commercial Locksmith',
+    copy: 'Master-key systems, high-security locks, panic bars and access control to protect your business and staff.',
+    image: imgCommercial,
+    alt: 'Commercial high-security lock and access control system',
+  },
+];
+---
+
+<section id="services" class="ms-svc-sec">
+  <div class="ms-svc-inner mx-auto w-full max-w-[1140px] px-6">
+    <div class="reveal mx-auto max-w-[720px] text-center max-xs:px-5">
+      <p class="ms-kicker">Our Services</p>
+      <h2 class="ms-h2">
+        Everything you lock. <br class="max-xs:hidden" />One team you trust.
+      </h2>
+      <p class="ms-lead">
+        From a 2&nbsp;a.m. lockout to a full commercial master-key system —
+        certified technicians, done fast and done clean.
+      </p>
+    </div>
+
+    <div class="mt-[68px] grid gap-6 nav:grid-cols-2">
+      {cards.map((c, i) => <ServiceCard {...c} revealDelay={i * 90} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ms-svc-sec {
+    position: relative;
+    background: #f5f6fb;
+    overflow: hidden;
+    scroll-margin-top: 0;
+  }
+  .ms-svc-inner {
+    position: relative;
+    padding: 108px 15px;
+  }
+  .ms-svc-sec::before,
+  .ms-svc-sec::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .ms-svc-sec::before {
+    top: -120px;
+    left: -140px;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(43, 87, 240, 0.05), transparent 72%);
+  }
+  .ms-svc-sec::after {
+    bottom: -160px;
+    right: -120px;
+    width: 460px;
+    height: 460px;
+    background: radial-gradient(circle, rgba(43, 87, 240, 0.04), transparent 72%);
+  }
+  @media (max-width: 43.75rem) {
+    .ms-svc-inner {
+      padding: 64px 10px;
+    }
+  }
+</style>

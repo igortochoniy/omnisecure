@@ -1,0 +1,188 @@
+---
+// One price card — transcribed 1:1 from the design prototype. Dark navy glass,
+// gradient icon chip (coral for Emergency, blue for the rest), two-line title,
+// gradient price, one-line note. Hover = diagonal shine sweep + lift + border
+// glow (lift disabled on mobile via the section CSS).
+interface Props {
+  title: [string, string];
+  price: string; // number only, e.g. "95"
+  note: string;
+  accent?: 'blue' | 'coral';
+  icon?: 'bolt' | 'car' | 'lock' | 'key';
+}
+const { title, price, note, accent = 'blue', icon = 'lock' } = Astro.props;
+
+// Exact icon paths from the design (24-space, stroke 1.9).
+const icons: Record<string, string> = {
+  bolt: '<path d="m13 2-8 12h7l-1 8 8-12h-7z"></path>',
+  car: '<path d="M5 13 6.5 8h11L19 13"></path><path d="M4 13h16v5H4z"></path><circle cx="7.5" cy="18" r="1.3"></circle><circle cx="16.5" cy="18" r="1.3"></circle>',
+  lock: '<rect x="4.5" y="10.5" width="15" height="10" rx="2.5"></rect><path d="M7.5 10.5V7.5a4.5 4.5 0 0 1 9 0v3"></path><circle cx="12" cy="15.5" r="1.3"></circle>',
+  key: '<circle cx="8" cy="16" r="4"></circle><path d="m11 13 8-8"></path><path d="m16.5 7.5 2 2"></path><path d="m19 5 2 2"></path>',
+};
+---
+
+<div class:list={['ms-price-card', accent === 'coral' && 'is-coral']}>
+  <span class="ms-price-chip">
+    <svg
+      viewBox="0 0 24 24"
+      width="23"
+      height="23"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.9"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+      set:html={icons[icon]}
+    />
+  </span>
+  <h3 class="ms-price-title">{title[0]}<br />{title[1]}</h3>
+  <div class="ms-price-amount">
+    <span class="ms-price-cur">$</span><span class="ms-price-num">{price}</span
+    ><span class="ms-price-plus">+</span>
+  </div>
+  <p class="ms-price-note">{note}</p>
+</div>
+
+<style>
+  .ms-price-card {
+    position: relative;
+    overflow: hidden;
+    padding: 32px 28px;
+    border-radius: 20px;
+    background: linear-gradient(
+      150deg,
+      rgba(18, 26, 58, 0.65),
+      rgba(12, 18, 42, 0.55)
+    );
+    backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.14);
+    transition:
+      transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+      border-color 0.35s ease;
+  }
+  .ms-price-card > * {
+    position: relative;
+    z-index: 1;
+  }
+  .ms-price-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -160%;
+    width: 60%;
+    background: linear-gradient(
+      100deg,
+      transparent,
+      rgba(255, 255, 255, 0.16),
+      transparent
+    );
+    transform: skewX(-18deg);
+    transition: left 0.75s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .ms-price-card:hover::after {
+    left: 170%;
+  }
+  .ms-price-card:hover {
+    transform: translateY(-5px);
+    border-color: #3c4c8c;
+    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.32);
+  }
+
+  .ms-price-chip {
+    display: inline-flex;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+      160deg,
+      rgba(122, 160, 255, 0.18),
+      rgba(122, 160, 255, 0.05)
+    );
+    border: 1px solid rgba(122, 160, 255, 0.26);
+    color: #a9c2ff;
+  }
+  .ms-price-card.is-coral .ms-price-chip {
+    background: linear-gradient(
+      160deg,
+      rgba(255, 122, 110, 0.2),
+      rgba(255, 122, 110, 0.05)
+    );
+    border-color: rgba(255, 122, 110, 0.28);
+    color: #ff9d92;
+  }
+  .ms-price-title {
+    margin: 18px 0 0;
+    color: #fff;
+    font-size: 16.5px;
+    font-weight: 700;
+  }
+  .ms-price-amount {
+    margin-top: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 3px;
+    width: max-content;
+    background: linear-gradient(120deg, #ffffff, #b9c9ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .ms-price-cur {
+    font-size: 26px;
+    font-weight: 800;
+    margin-top: 9px;
+  }
+  .ms-price-num {
+    font-size: 65px;
+    font-weight: 800;
+    letter-spacing: -2.5px;
+    line-height: 0.9;
+  }
+  .ms-price-plus {
+    font-size: 30px;
+    font-weight: 800;
+    margin-top: 8px;
+  }
+  .ms-price-note {
+    margin: 11px 0 0;
+    color: #9aa2c2;
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 43.75rem) {
+    .ms-price-card {
+      text-align: center;
+      padding: 20px 10px;
+    }
+    .ms-price-num {
+      font-size: 60px;
+    }
+    .ms-price-card:hover {
+      transform: none;
+      border-color: rgba(255, 255, 255, 0.1);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.14);
+    }
+    .ms-price-chip {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .ms-price-amount {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ms-price-card:hover {
+      transform: none;
+    }
+  }
+</style>

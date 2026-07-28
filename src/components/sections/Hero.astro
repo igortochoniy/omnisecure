@@ -1,0 +1,1002 @@
+---
+// Hero — rebuilt 1:1 from the Claude Design prototype (exact markup, icons,
+// gradients, colour orbs and animations transcribed from the design). Only the
+// backend wiring (contact-form → /api/contact) and astro:assets images are ours.
+// LCP: desktop bg <img> is eager + preloaded.
+import { getImage } from 'astro:assets';
+import { CONTACT } from '@data/constants';
+import heroDesktop from '@images/design/hero-desktop.jpg';
+import heroMobile from '@images/design/hero-mobile.jpg';
+
+const heroDesktopImg = await getImage({
+  src: heroDesktop,
+  width: 1920,
+  format: 'avif',
+  quality: 62,
+});
+const heroMobileImg = await getImage({
+  src: heroMobile,
+  width: 820,
+  format: 'avif',
+  quality: 50,
+});
+
+const services = [
+  'Emergency lockout',
+  'Residential locksmith',
+  'Automotive locksmith',
+  'Commercial locksmith',
+  'Lock change / re-key',
+];
+---
+
+{/* Keep the hero LCP preload in sync with the desktop <img> (same getImage args). */}
+<link rel="preload" as="image" href={heroDesktopImg.src} fetchpriority="high" />
+
+<section id="top" class="ms-hero">
+  {/* full-bleed background image */}
+  <div class="ms-hero-bgwrap">
+    <img
+      class="ms-hero-bg-d"
+      src={heroDesktopImg.src}
+      alt="Hand entering code on a commercial keypad door lock"
+      width="1920"
+      height="1453"
+      fetchpriority="high"
+      loading="eager"
+      decoding="async"
+    />
+    <img
+      class="ms-hero-bg-m"
+      src={heroMobileImg.src}
+      alt="Hand entering code on a commercial keypad door lock"
+      width="820"
+      height="2814"
+      fetchpriority="high"
+      loading="eager"
+      decoding="async"
+    />
+  </div>
+  {/* dark scrim + blue radial glow */}
+  <div class="ms-hero-scrim" aria-hidden="true"></div>
+  <div class="ms-hero-radial" aria-hidden="true"></div>
+  {/* colourful glow orbs behind the glass (liquid-glass refraction) */}
+  <div class="ms-hero-orbs" aria-hidden="true">
+    <div class="ms-orb ms-orb1"></div>
+    <div class="ms-orb ms-orb2"></div>
+    <div class="ms-orb ms-orb3"></div>
+    <div class="ms-orb ms-orb4"></div>
+  </div>
+
+  <div class="ms-hero-wrap">
+    <div class="ms-hero-grid">
+      {/* ── Left column (text block fades up as one, see CSS) ── */}
+      <div class="ms-hero-content">
+        <div class="ms-hero-stats">
+          <div class="ms-stat-pill">
+            <span class="ms-stat-ico">
+              <svg
+                viewBox="0 0 24 24"
+                width="15"
+                height="15"
+                fill="none"
+                stroke="#a9c2ff"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M9 12l2 2 4-4"></path>
+                <path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z"></path>
+              </svg>
+            </span>
+            <span class="ms-stat-txt">
+              <span class="ms-stat-t">15+ years</span>
+              <span class="ms-stat-s">Licensed &amp; serving</span>
+            </span>
+          </div>
+          <div class="ms-stat-pill">
+            <span class="ms-stat-ico">
+              <svg
+                viewBox="0 0 24 24"
+                width="15"
+                height="15"
+                fill="none"
+                stroke="#a9c2ff"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M13 2L4.5 13H11l-1 9 8.5-11H12z"></path>
+              </svg>
+            </span>
+            <span class="ms-stat-txt">
+              <span class="ms-stat-t">Same-day</span>
+              <span class="ms-stat-s">Most jobs on arrival</span>
+            </span>
+          </div>
+        </div>
+
+        <h1 class="ms-hero-h1">
+          Day or night, your <span class="ms-grad">Boston locksmith</span> is on the
+          way.
+        </h1>
+
+        <p class="ms-hero-sub">
+          24/7 emergency, residential, commercial and automotive locksmith
+          services — serving Boston and everywhere within a 30-mile radius.
+        </p>
+
+        <div class="ms-btn-row">
+          <a
+            href={CONTACT.phoneHref}
+            class="ms-cta ms-cta-blue"
+            data-track="call_click"
+            aria-label={`Call now at ${CONTACT.phoneDisplay}`}
+          >
+            <svg
+              class="ms-cta-ico"
+              viewBox="0 0 24 24"
+              width="19"
+              height="19"
+              fill="none"
+              stroke="#fff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path
+                d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z"
+              ></path>
+            </svg>
+            Call Now
+          </a>
+          <a href="#request-callback" class="ms-cta ms-cta-white">
+            <svg
+              class="ms-cta-ico"
+              viewBox="0 0 24 24"
+              width="19"
+              height="19"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+              ></path>
+            </svg>
+            Request Callback
+          </a>
+        </div>
+      </div>
+
+      {/* ── Right column: glass callback form (stays put so the glass keeps
+        sampling the orbs; a transform entrance would pop the glow) ── */}
+      <div class="ms-hero-formcard">
+        <div class="ms-hero-formglass">
+          <div class="ms-hero-forminner">
+            <form
+              class="contact-form"
+              action="/api/contact"
+              method="POST"
+              data-source="hero"
+              novalidate
+            >
+              <h3 class="ms-form-title">Request a callback</h3>
+              <p class="ms-form-sub">
+                Tell us what's going on — we'll call you back in minutes.
+              </p>
+              <div class="ms-form-fields">
+                <label class="sr-only" for="hero-name">Full name</label>
+                <input
+                  id="hero-name"
+                  name="name"
+                  type="text"
+                  required
+                  autocomplete="name"
+                  class="ms-hero-field"
+                  placeholder="Full name"
+                />
+                <label class="sr-only" for="hero-phone">Phone number</label>
+                <input
+                  id="hero-phone"
+                  name="phone"
+                  type="tel"
+                  required
+                  autocomplete="tel"
+                  class="ms-hero-field"
+                  placeholder="Phone number"
+                />
+                <div class="ms-select">
+                  <label class="sr-only" for="hero-service">Service needed</label>
+                  <select id="hero-service" name="service" class="ms-hero-field">
+                    {services.map(s => <option value={s}>{s}</option>)}
+                  </select>
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="16"
+                    height="16"
+                    fill="none"
+                    stroke="#ffffff"
+                    stroke-width="2.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </div>
+                {/* Honeypot */}
+                <input
+                  type="text"
+                  name="_gotcha"
+                  tabindex="-1"
+                  autocomplete="off"
+                  class="hidden"
+                  aria-hidden="true"
+                />
+                <button type="submit" class="ms-form-submit">Request my callback</button
+                >
+              </div>
+              <div class="ms-form-note">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="15"
+                  height="15"
+                  fill="none"
+                  stroke="#7ff0b0"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+                Licensed, bonded &amp; insured · No obligation
+              </div>
+              <p class="contact-status ms-form-status" role="status" aria-live="polite">
+              </p>
+            </form>
+
+            {/* Success panel (revealed by the contact-form script) */}
+            <div class="ms-form-done" data-form-success hidden>
+              <span class="ms-form-done-ico">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="30"
+                  height="30"
+                  fill="none"
+                  stroke="#7ff0b0"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+              </span>
+              <h3 class="ms-form-done-title">Thanks — we've got it!</h3>
+              <p class="ms-form-done-sub">
+                A locksmith will call you back shortly. Need us now?
+                <a href={CONTACT.phoneHref} data-track="call_click"
+                  >{CONTACT.phoneDisplay}</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* floating rating card (top-right) */}
+        <div class="ms-float-a ms-rating-card" aria-hidden="true">
+          <span class="ms-rating-stars">★★★★★</span>
+          <span class="ms-rating-num">4.9<span class="ms-rating-of"> / 5</span></span>
+          <span class="ms-rating-src">Google reviews</span>
+        </div>
+
+        {/* floating ETA pill (bottom-left) */}
+        <div class="ms-float-b ms-eta-pill" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            width="20"
+            height="20"
+            fill="none"
+            stroke="#fff"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="9"></circle>
+            <line class="ms-arrow" x1="12" y1="12" x2="12" y2="6"></line>
+          </svg>
+          <span class="ms-eta-txt">
+            <span class="ms-eta-t">ETA ~20 min</span>
+            <span class="ms-eta-s">On the way now</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ms-hero {
+    position: relative;
+    overflow: hidden;
+    background: #090e21;
+    min-height: 100vh;
+  }
+  .ms-hero-bgwrap {
+    position: absolute;
+    inset: 0;
+  }
+  .ms-hero-bg-d,
+  .ms-hero-bg-m {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .ms-hero-bg-d {
+    object-position: 55% center;
+  }
+  .ms-hero-bg-m {
+    object-position: 50% center;
+    display: none;
+  }
+  .ms-hero-scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      100deg,
+      rgba(9, 14, 33, 0.72) 0%,
+      rgba(9, 14, 33, 0.4) 32%,
+      rgba(9, 14, 33, 0.12) 56%,
+      rgba(9, 14, 33, 0.03) 80%,
+      rgba(9, 14, 33, 0) 100%
+    );
+  }
+  .ms-hero-radial {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at 76% 34%,
+      rgba(43, 87, 240, 0.22),
+      transparent 52%
+    );
+  }
+  .ms-hero-orbs {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .ms-orb {
+    position: absolute;
+    border-radius: 50%;
+  }
+  .ms-orb1 {
+    top: 6%;
+    right: 30%;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, rgba(124, 92, 255, 0.42), transparent 65%);
+    filter: blur(10px);
+  }
+  .ms-orb2 {
+    top: 44%;
+    right: 2%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(43, 120, 255, 0.4), transparent 66%);
+    filter: blur(12px);
+  }
+  .ms-orb3 {
+    bottom: 4%;
+    right: 24%;
+    width: 240px;
+    height: 240px;
+    background: radial-gradient(circle, rgba(14, 180, 190, 0.32), transparent 66%);
+    filter: blur(12px);
+  }
+  .ms-orb4 {
+    top: 20%;
+    right: 46%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 120, 90, 0.24), transparent 68%);
+    filter: blur(14px);
+  }
+
+  /* On-load entrance: elements ease up one after another — stat pill 1 → pill 2
+     → H1 → subhead → Call Now → Request Callback — and the form fades in softly
+     alongside. Gentle, slow ease-out; small travel so it feels smooth. Pure CSS
+     (plays without the reveal JS). */
+  @keyframes msHeroUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .ms-hero-content {
+    animation: msHeroUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+  }
+  /* The form appears softly by fading its CONTENT in — the glass panel itself
+     stays put so its backdrop-filter keeps the glow on the whole time (animating
+     the panel would cut the glow and pop it back at the end). */
+  .ms-hero-forminner {
+    animation: msHeroFade 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+  }
+  @keyframes msHeroFade {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ms-hero-content,
+    .ms-hero-forminner {
+      animation: none;
+    }
+  }
+
+  .ms-hero-wrap {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 24px 72px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .ms-hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 72px;
+    align-items: center;
+  }
+
+  /* Stat pills */
+  .ms-hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 40px;
+    max-width: 440px;
+  }
+  .ms-stat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(9, 14, 33, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    padding: 9px 16px 9px 11px;
+    backdrop-filter: blur(14px) saturate(160%);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.14);
+  }
+  .ms-stat-ico {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(122, 160, 255, 0.16);
+    border: 1px solid rgba(122, 160, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .ms-stat-txt {
+    line-height: 1.15;
+  }
+  .ms-stat-t {
+    display: block;
+    font-weight: 800;
+    font-size: 14.5px;
+    color: #fff;
+  }
+  .ms-stat-s {
+    display: block;
+    font-size: 12px;
+    color: #c8cee2;
+    margin-top: 3px;
+  }
+
+  .ms-hero-h1 {
+    font-size: 66px;
+    line-height: 1.02;
+    letter-spacing: -2.2px;
+    font-weight: 800;
+    margin: 30px 0 0;
+    color: #fff;
+    text-wrap: balance;
+  }
+  .ms-grad {
+    background: linear-gradient(105deg, #6a8bff, #a9beff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .ms-hero-sub {
+    font-size: 18.5px;
+    line-height: 1.65;
+    color: #c4cbe0;
+    margin: 28px 0 0;
+    max-width: 500px;
+    text-wrap: pretty;
+  }
+
+  /* CTAs */
+  .ms-btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 40px;
+  }
+  .ms-cta {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 16.5px;
+    border-radius: 14px;
+    will-change: transform;
+    transition:
+      transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+      background 0.3s ease;
+  }
+  .ms-cta > * {
+    position: relative;
+    z-index: 1;
+  }
+  .ms-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -60%;
+    width: 45%;
+    background: linear-gradient(
+      100deg,
+      transparent,
+      rgba(255, 255, 255, 0.55),
+      transparent
+    );
+    transform: skewX(-18deg);
+    transition: left 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .ms-cta:hover::before {
+    left: 130%;
+  }
+  .ms-cta-ico {
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .ms-cta:hover .ms-cta-ico {
+    transform: rotate(-14deg) scale(1.08);
+  }
+  .ms-cta-blue {
+    background: #2b57f0;
+    color: #fff;
+    padding: 16px 28px;
+    border: 1px solid transparent;
+    box-shadow: 0 14px 32px rgba(43, 87, 240, 0.5);
+  }
+  .ms-cta-blue:hover {
+    transform: translateY(-3px);
+    background: #4a72ff;
+    box-shadow:
+      0 20px 44px rgba(43, 87, 240, 0.6),
+      0 0 0 1px rgba(122, 160, 255, 0.5);
+  }
+  .ms-cta-white {
+    background: #ffffff;
+    color: #0f1633;
+    padding: 16px 26px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 12px 28px rgba(10, 16, 40, 0.28);
+  }
+  .ms-cta-white:hover {
+    transform: translateY(-3px);
+    background: #f0f3ff;
+    box-shadow:
+      0 20px 44px rgba(10, 16, 40, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.9);
+  }
+
+  /* Glass form */
+  .ms-hero-formcard {
+    position: relative;
+  }
+  .ms-hero-formglass {
+    position: relative;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.09),
+      rgba(255, 255, 255, 0.02) 60%
+    );
+    backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 28px;
+    padding: 40px 38px 50px;
+    box-shadow:
+      0 30px 70px rgba(6, 10, 28, 0.4),
+      inset 0 1px 1.5px rgba(255, 255, 255, 0.5),
+      inset 0 -30px 60px rgba(255, 255, 255, 0.04);
+    z-index: 2;
+  }
+  /* Glossy refraction edge */
+  .ms-hero-formglass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    padding: 1.5px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.95),
+      rgba(255, 255, 255, 0.15) 30%,
+      rgba(255, 255, 255, 0) 55%,
+      rgba(255, 255, 255, 0.35) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+  .ms-hero-forminner {
+    position: relative;
+    z-index: 1;
+  }
+  .ms-form-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    margin: 0;
+    letter-spacing: -0.6px;
+  }
+  .ms-form-sub {
+    font-size: 14px;
+    color: #bfc6dd;
+    margin: 7px 0 0;
+  }
+  .ms-form-fields {
+    margin-top: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .ms-hero-field {
+    font-family: inherit;
+    font-size: 15px;
+    color: #fff;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 13px;
+    background: rgba(20, 26, 52, 0.55);
+    outline: none;
+    width: 100%;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
+  }
+  .ms-hero-field::placeholder {
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .ms-hero-field:focus {
+    border-color: #6a8bff;
+    background: rgba(20, 26, 52, 0.7);
+  }
+  .ms-select {
+    position: relative;
+    display: flex;
+  }
+  .ms-select select {
+    flex: 1;
+    padding-right: 44px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  .ms-select option {
+    color: #14161d;
+  }
+  .ms-select svg {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  .ms-form-submit {
+    margin-top: 4px;
+    width: 100%;
+    background: #2b57f0;
+    color: #fff;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 15px;
+    border: none;
+    border-radius: 13px;
+    cursor: pointer;
+    box-shadow: 0 12px 28px rgba(43, 87, 240, 0.5);
+    transition:
+      background 0.25s ease,
+      transform 0.2s ease;
+  }
+  .ms-form-submit:hover {
+    background: #4a72ff;
+    transform: translateY(-2px);
+  }
+  .ms-form-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    color: #bfc6dd;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .ms-form-note svg {
+    flex: none;
+  }
+  .ms-form-status {
+    margin: 10px 0 0;
+    font-size: 13.5px;
+    min-height: 1em;
+    color: #c8cee2;
+  }
+  .ms-form-status[data-state='error'] {
+    color: #ffb4b0;
+  }
+  .ms-form-status[data-state='ok'] {
+    color: #7ff0b0;
+  }
+  .ms-form-done {
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .ms-form-done-ico {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(31, 157, 85, 0.22);
+    border: 1px solid rgba(120, 230, 170, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ms-form-done-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 18px 0 0;
+    color: #fff;
+  }
+  .ms-form-done-sub {
+    font-size: 15px;
+    color: #c4cbe0;
+    margin: 10px 0 0;
+    max-width: 280px;
+  }
+  .ms-form-done-sub a {
+    color: #a9beff;
+    font-weight: 700;
+  }
+
+  /* Floating rating card */
+  .ms-rating-card {
+    position: absolute;
+    top: -26px;
+    right: -20px;
+    z-index: 3;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 12px 15px;
+    box-shadow: 0 18px 40px rgba(6, 10, 28, 0.4);
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+  .ms-rating-stars {
+    display: flex;
+    gap: 1px;
+    color: #f5a623;
+    font-size: 13px;
+  }
+  .ms-rating-num {
+    font-weight: 800;
+    font-size: 32px;
+    margin-top: 5px;
+    color: #14161d;
+  }
+  .ms-rating-of {
+    font-size: 13px;
+    font-weight: 600;
+    color: #7c8091;
+  }
+  .ms-rating-src {
+    font-size: 11.5px;
+    color: #7c8091;
+    font-weight: 600;
+  }
+
+  /* Floating ETA pill */
+  .ms-eta-pill {
+    position: absolute;
+    bottom: -26px;
+    left: -34px;
+    z-index: 3;
+    background: #2b57f0;
+    color: #fff;
+    border-radius: 14px;
+    padding: 12px 16px;
+    box-shadow: 0 18px 40px rgba(43, 87, 240, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ms-eta-txt {
+    line-height: 1.1;
+  }
+  .ms-eta-t {
+    display: block;
+    font-weight: 800;
+    font-size: 16px;
+  }
+  .ms-eta-s {
+    display: block;
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+  .ms-arrow {
+    transform-origin: 12px 12px;
+    animation: msArrow 2s linear infinite;
+  }
+  @keyframes msArrow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .ms-float-a {
+    animation: msFloatA 5.5s ease-in-out infinite;
+  }
+  .ms-float-b {
+    animation: msFloatB 6.5s ease-in-out infinite;
+  }
+  @keyframes msFloatA {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-11px);
+    }
+  }
+  @keyframes msFloatB {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(10px);
+    }
+  }
+
+  /* ── Responsive (mirrors the design's #msl-responsive sheet) ── */
+  @media (max-width: 56.25rem) {
+    .ms-hero-wrap {
+      min-height: auto;
+      justify-content: flex-start;
+      padding: 88px 20px 52px;
+    }
+    .ms-hero-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+  }
+  @media (max-width: 43.75rem) {
+    .ms-hero-bg-d {
+      display: none;
+    }
+    .ms-hero-bg-m {
+      display: block;
+    }
+    .ms-hero-wrap {
+      padding: 88px 10px 52px;
+    }
+    .ms-hero-h1 {
+      font-size: 38px;
+      letter-spacing: -1px;
+      line-height: 1.08;
+    }
+    .ms-hero-sub {
+      font-size: 16.5px;
+    }
+    .ms-hero-stats {
+      flex-wrap: nowrap;
+      margin-top: 60px;
+      gap: 5px;
+    }
+    .ms-hero-stats > .ms-stat-pill {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+    .ms-stat-pill {
+      padding: 10px;
+      gap: 7px;
+    }
+    .ms-stat-s {
+      font-size: 11px;
+    }
+    .ms-hero-formcard {
+      margin: 60px 0;
+    }
+    .ms-hero-formglass {
+      padding: 40px 20px 20px 20px;
+    }
+    .ms-btn-row {
+      flex-wrap: nowrap;
+      gap: 10px;
+    }
+    .ms-btn-row > a {
+      flex: 1 1 auto;
+      min-width: 0;
+      justify-content: center;
+      padding: 15px 15px;
+      font-size: 16px;
+    }
+    .ms-rating-card {
+      position: absolute;
+      top: -43px;
+      right: -5px;
+    }
+    .ms-eta-pill {
+      position: absolute;
+      bottom: -38px;
+      left: -5px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ms-arrow,
+    .ms-float-a,
+    .ms-float-b {
+      animation: none;
+    }
+    .ms-cta,
+    .ms-cta:hover {
+      transform: none;
+    }
+    .ms-cta::before {
+      display: none;
+    }
+  }
+</style>

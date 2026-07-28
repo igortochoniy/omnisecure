@@ -1,18 +1,18 @@
 {
-  "name": "",
-  "telephone": "",
-  "priceRange": "",
-  "areaServed": "",
+  "name": "Mass Secure Locksmith",
+  "telephone": "+16175550134",
+  "priceRange": "$$",
+  "areaServed": "Greater Boston & all of Massachusetts",
   "streetAddress": "",
-  "addressLocality": "",
-  "addressRegion": "",
+  "addressLocality": "Boston",
+  "addressRegion": "MA",
   "postalCode": "",
-  "addressCountry": "",
+  "addressCountry": "US",
   "latitude": "",
   "longitude": "",
-  "open24_7": false,
+  "open24_7": true,
   "image": "",
   "sameAs": [],
-  "ratingValue": "",
-  "reviewCount": ""
+  "ratingValue": "4.9",
+  "reviewCount": "400"
 }

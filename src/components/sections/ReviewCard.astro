@@ -1,0 +1,195 @@
+---
+// One review card — transcribed 1:1 from the design. Glass surface, initials
+// avatar + platform pill (Google/Thumbtack show logo + label; Angi is logo-only;
+// Thumbtack logo is rotated 180°), a Georgia decorative quote glyph, the quote,
+// and an attribution block with a left accent bar.
+import googleLogo from '@images/design/google.svg';
+import thumbtackLogo from '@images/design/thumbtack.svg';
+import angiLogo from '@images/design/angi.svg';
+
+interface Props {
+  quote: string;
+  name: string;
+  role: string;
+  city: string;
+  platform: 'Google' | 'Thumbtack' | 'Angi';
+  initials: string;
+}
+const { quote, name, role, city, platform, initials } = Astro.props;
+
+const logos = { Google: googleLogo, Thumbtack: thumbtackLogo, Angi: angiLogo };
+const logo = logos[platform];
+---
+
+<figure class="ms-rev-card">
+  <div class="ms-rev-top">
+    <span class="ms-rev-avatar" aria-hidden="true">{initials}</span>
+    {
+      platform === 'Angi' ? (
+        <span class="ms-rev-plat is-angi">
+          <img src={logo.src} alt="Angi" height="15" />
+        </span>
+      ) : (
+        <span class="ms-rev-plat">
+          <img
+            src={logo.src}
+            alt={platform}
+            width="17"
+            height="17"
+            class:list={[platform === 'Thumbtack' && 'is-flipped']}
+          />
+          <span>{platform}</span>
+        </span>
+      )
+    }
+  </div>
+  <span class="ms-rev-quote-mark" aria-hidden="true">&ldquo;</span>
+  <blockquote class="ms-rev-quote">{quote}</blockquote>
+  <figcaption class="ms-rev-cap">
+    <div class="ms-rev-name">{name}</div>
+    <div class="ms-rev-role">{role}</div>
+    <div class="ms-rev-city">{city}</div>
+  </figcaption>
+</figure>
+
+<style>
+  .ms-rev-card {
+    position: relative;
+    overflow: hidden;
+    width: 400px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 28px 30px;
+    border-radius: 22px;
+    background: linear-gradient(
+      150deg,
+      rgba(255, 255, 255, 0.55),
+      rgba(255, 255, 255, 0.22)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px) saturate(160%);
+    box-shadow:
+      0 10px 30px rgba(16, 24, 50, 0.07),
+      inset 0 1px 1px rgba(255, 255, 255, 0.7);
+    transition:
+      transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .ms-rev-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 26px 56px rgba(16, 24, 50, 0.14);
+  }
+  .ms-rev-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .ms-rev-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #1a2242;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .ms-rev-plat {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px 7px 11px;
+    border-radius: 999px;
+    background: #f6f7fb;
+    border: 1px solid #ececf2;
+  }
+  .ms-rev-plat.is-angi {
+    padding: 8px 15px;
+    gap: 0;
+  }
+  .ms-rev-plat img {
+    width: 17px;
+    height: 17px;
+  }
+  .ms-rev-plat.is-angi img {
+    width: auto;
+    height: 15px;
+  }
+  /* Design quirk: the Thumbtack mark sits rotated 180°. */
+  .ms-rev-plat img.is-flipped {
+    transform: rotate(180deg);
+  }
+  .ms-rev-plat span {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #1a2242;
+  }
+  .ms-rev-quote-mark {
+    display: block;
+    margin-top: 24px;
+    height: 20px;
+    font-family: Georgia, serif;
+    font-size: 46px;
+    line-height: 0.5;
+    color: #c3ccde;
+  }
+  .ms-rev-quote {
+    margin: 14px 0 0;
+    flex: 1;
+    color: #171b26;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.3px;
+    text-wrap: pretty;
+  }
+  .ms-rev-cap {
+    margin-top: 26px;
+    padding-left: 15px;
+    border-left: 2px solid #c3ccde;
+  }
+  .ms-rev-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0c1023;
+  }
+  .ms-rev-role {
+    font-size: 12.5px;
+    color: #8b90a0;
+    margin-top: 4px;
+  }
+  .ms-rev-city {
+    font-size: 12.5px;
+    color: #8b90a0;
+    margin-top: 1px;
+  }
+  /* Tablet + mobile: one review per screen. The card fills the viewport minus a
+     gutter on each side; a matching group gap parks the next card exactly at the
+     edge (no sliver, at any width). No lift on tap — touch has no real hover. */
+  @media (max-width: 56.25rem) {
+    .ms-rev-card {
+      width: calc(100vw - 120px);
+      max-width: none;
+      scroll-snap-align: center;
+    }
+    .ms-rev-card:hover {
+      transform: none;
+      box-shadow:
+        0 10px 30px rgba(16, 24, 50, 0.07),
+        inset 0 1px 1px rgba(255, 255, 255, 0.7);
+    }
+  }
+  @media (max-width: 43.75rem) {
+    .ms-rev-card {
+      width: calc(100vw - 40px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ms-rev-card:hover {
+      transform: none;
+    }
+  }
+</style>

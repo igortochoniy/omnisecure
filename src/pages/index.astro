@@ -1,28 +1,21 @@
 ---
 import MainLayout from '@/layouts/MainLayout.astro';
-
-// Clean base — apply your own design here.
-// Reference section components are kept under:
-//   src/components/sections/landing      (HeroSection, HeroSectionAlt, ClientsSection)
-//   src/components/sections/features     (FeaturesGeneral, FeaturesNavs, FeaturesStats, FeaturesStatsAlt)
-//   src/components/sections/testimonials (TestimonialsSection, TestimonialsSectionAlt)
-//   src/components/sections/pricing      (PricingSection)
-//   src/components/sections/misc         (FAQ)
-// Import them into this page when you need a starting point.
+import Hero from '@components/sections/Hero.astro';
+import Services from '@components/sections/Services.astro';
+import Pricing from '@components/sections/Pricing.astro';
+import Reviews from '@components/sections/Reviews.astro';
+import EmergencyCTA from '@components/sections/EmergencyCTA.astro';
+import Faq from '@components/sections/Faq.astro';
+import Contact from '@components/sections/Contact.astro';
+import homeSeo from '@data/seo/home.json';
 ---
 
-<MainLayout>
-  <section
-    class="flex min-h-[60vh] flex-col items-center justify-center text-center"
-  >
-    <h1
-      class="text-3xl font-bold text-neutral-800 sm:text-5xl dark:text-neutral-200"
-    >
-      Clean base ready
-    </h1>
-    <p class="mt-4 max-w-xl text-neutral-600 dark:text-neutral-400">
-      Navbar, footer, layout, SEO and smooth scroll are wired up. Start building
-      your design in <code class="font-mono">src/pages/index.astro</code>.
-    </p>
-  </section>
+<MainLayout title={homeSeo.metaTitle} customDescription={homeSeo.metaDescription}>
+  <Hero />
+  <Services />
+  <Pricing />
+  <Reviews />
+  <EmergencyCTA />
+  <Faq />
+  <Contact />
 </MainLayout>

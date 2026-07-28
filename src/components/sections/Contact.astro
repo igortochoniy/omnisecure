@@ -1,0 +1,526 @@
+---
+// Contact — transcribed 1:1 from the design. A 50/50 split card: navy info panel
+// (glows, contact rows, trust line) on the left, frosted-glass callback form on
+// the right. Form posts to /api/contact (progressive enhancement + success panel).
+import { CONTACT } from '@data/constants';
+
+const services = [
+  'Emergency lockout',
+  'Residential locksmith',
+  'Automotive locksmith',
+  'Commercial locksmith',
+  'Lock change / re-key',
+  'Other',
+];
+---
+
+<section id="contact" class="ms-contact-sec">
+  <div class="ms-contact-inner">
+    <div class="ms-contact-card reveal">
+      {/* ── Left: navy info panel ── */}
+      <div class="ms-contact-info">
+        <div class="ms-contact-glow ms-contact-glow1" aria-hidden="true"></div>
+        <div class="ms-contact-glow ms-contact-glow2" aria-hidden="true"></div>
+        <div class="ms-contact-head">
+          <h2 class="ms-contact-h2">Talk to a real <br />locksmith now</h2>
+          <p class="ms-contact-lead">
+            Tell us what you need and we'll call you right back — usually within a
+            few minutes, day or night.
+          </p>
+        </div>
+
+        <div class="ms-contact-rows">
+          <a href={CONTACT.phoneHref} class="ms-contact-row" data-track="call_click">
+            <span class="ms-contact-chip">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#a9c2ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z"></path>
+              </svg>
+            </span>
+            <span class="ms-contact-txt">
+              <span class="ms-contact-label">Call 24/7</span>
+              <span class="ms-contact-val ms-contact-val-lg">{CONTACT.phoneDisplay}</span>
+            </span>
+          </a>
+          <a href={CONTACT.emailHref} class="ms-contact-row">
+            <span class="ms-contact-chip">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#a9c2ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <path d="m3 7 9 6 9-6"></path>
+              </svg>
+            </span>
+            <span class="ms-contact-txt">
+              <span class="ms-contact-label">Email us</span>
+              <span class="ms-contact-val ms-contact-ellipsis">{CONTACT.email}</span>
+            </span>
+          </a>
+          <div class="ms-contact-row">
+            <span class="ms-contact-chip">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#a9c2ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+            </span>
+            <span class="ms-contact-txt">
+              <span class="ms-contact-label">Service area</span>
+              <span class="ms-contact-val">Greater Boston &amp; all of Massachusetts</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="ms-contact-trust">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#3ad07f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
+          Licensed, bonded &amp; insured in MA
+        </div>
+      </div>
+
+      {/* ── Right: frosted-glass form ── */}
+      <div id="request-callback" class="ms-contact-formpanel">
+        <form
+          class="contact-form"
+          action="/api/contact"
+          method="POST"
+          data-source="contact"
+          novalidate
+        >
+          <div class="ms-contact-formhead">
+            <div>
+              <h3 class="ms-contact-formtitle">Request a callback</h3>
+              <p class="ms-contact-formsub">
+                Free, no-obligation quote — we'll confirm the price before any
+                work.
+              </p>
+            </div>
+            <span class="ms-contact-avg">
+              <span class="ms-cping"></span>Avg. callback ~2 min
+            </span>
+          </div>
+
+          <div class="ms-cf-2col">
+            <label class="ms-cfield">
+              <span>Full name</span>
+              <input name="name" type="text" required autocomplete="name" class="ms-cinput" placeholder="Jane Doe" />
+            </label>
+            <label class="ms-cfield">
+              <span>Phone</span>
+              <input name="phone" type="tel" required autocomplete="tel" class="ms-cinput" placeholder="(617) 555-0134" />
+            </label>
+          </div>
+          <label class="ms-cfield ms-cfield-mt">
+            <span>Service needed</span>
+            <div class="ms-cselect">
+              <select name="service" class="ms-cinput">
+                {services.map(s => <option value={s}>{s}</option>)}
+              </select>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#8b90a0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </div>
+          </label>
+          <label class="ms-cfield ms-cfield-mt">
+            <span>How can we help?</span>
+            <textarea name="message" rows="3" class="ms-cinput" placeholder="Briefly describe your situation and location…"></textarea>
+          </label>
+
+          {/* Honeypot */}
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+          <button type="submit" class="ms-cta ms-cta-blue ms-csubmit">
+            <svg class="ms-cta-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z"></path>
+            </svg>
+            Request my callback
+          </button>
+          <p class="ms-cfine">
+            We'll only use your details to contact you about your request.
+          </p>
+          <p class="contact-status ms-cstatus" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="ms-cdone" data-form-success hidden>
+          <span class="ms-cdone-ico">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#1f9d55" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+          </span>
+          <h3 class="ms-cdone-title">Thanks — we've got it!</h3>
+          <p class="ms-cdone-sub">
+            A locksmith will call you back shortly. Need us right now? Call
+            <a href={CONTACT.phoneHref} data-track="call_click">{CONTACT.phoneDisplay}</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ms-contact-sec {
+    background: linear-gradient(180deg, #ffffff 0%, #ecf0fb 220px);
+    scroll-margin-top: 0;
+  }
+  .ms-contact-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px 108px 15px;
+  }
+  .ms-contact-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid #e6e9f3;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 34px 80px rgba(16, 24, 50, 0.12);
+  }
+
+  /* Left */
+  .ms-contact-info {
+    min-width: 0;
+    position: relative;
+    overflow: hidden;
+    background: #0f1734;
+    padding: 64px 56px;
+    display: flex;
+    flex-direction: column;
+  }
+  .ms-contact-glow {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .ms-contact-glow1 {
+    top: -160px;
+    right: -120px;
+    width: 460px;
+    height: 460px;
+    background: radial-gradient(circle, rgba(43, 87, 240, 0.55), transparent 70%);
+  }
+  .ms-contact-glow2 {
+    bottom: -180px;
+    left: -120px;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(circle, rgba(124, 92, 255, 0.32), transparent 70%);
+  }
+  .ms-contact-head {
+    position: relative;
+  }
+  .ms-contact-h2 {
+    font-size: 38px;
+    line-height: 1.08;
+    letter-spacing: -1.2px;
+    font-weight: 800;
+    margin: 0;
+    color: #fff;
+  }
+  .ms-contact-lead {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #aeb5d1;
+    margin: 14px 0 0;
+    max-width: 330px;
+  }
+  .ms-contact-rows {
+    position: relative;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .ms-contact-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 14px 16px;
+    transition:
+      background 0.25s ease,
+      border-color 0.25s ease;
+  }
+  a.ms-contact-row:hover {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  .ms-contact-chip {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: linear-gradient(
+      160deg,
+      rgba(122, 160, 255, 0.18),
+      rgba(122, 160, 255, 0.05)
+    );
+    border: 1px solid rgba(122, 160, 255, 0.26);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .ms-contact-txt {
+    line-height: 1.25;
+    min-width: 0;
+  }
+  .ms-contact-label {
+    display: block;
+    font-size: 12px;
+    color: #8b93b3;
+    font-weight: 600;
+  }
+  .ms-contact-val {
+    display: block;
+    font-weight: 800;
+    font-size: 14.5px;
+  }
+  .ms-contact-val-lg {
+    font-size: 17px;
+  }
+  .ms-contact-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ms-contact-trust {
+    position: relative;
+    margin-top: 40px;
+    padding-top: 34px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #aeb5d1;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+  .ms-contact-trust svg {
+    flex: none;
+  }
+
+  /* Right */
+  .ms-contact-formpanel {
+    min-width: 0;
+    scroll-margin-top: 0;
+    padding: 56px 52px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: linear-gradient(
+      150deg,
+      rgba(255, 255, 255, 0.42),
+      rgba(255, 255, 255, 0.16)
+    );
+    backdrop-filter: blur(22px) saturate(160%);
+  }
+  .ms-contact-formhead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+  .ms-contact-formtitle {
+    font-size: 38px;
+    line-height: 1.08;
+    letter-spacing: -1.2px;
+    font-weight: 800;
+    color: #0c1023;
+    margin: 0;
+  }
+  .ms-contact-formsub {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #545867;
+    margin: 14px 0 0;
+    max-width: 330px;
+  }
+  .ms-contact-avg {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #eaf0ff;
+    color: #2b57f0;
+    font-weight: 700;
+    font-size: 12.5px;
+    padding: 8px 13px;
+    border-radius: 999px;
+    flex: none;
+  }
+  .ms-cping {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #2b57f0;
+    animation: msCping 2s ease-out infinite;
+  }
+  @keyframes msCping {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    80%,
+    100% {
+      transform: scale(2.6);
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ms-cping {
+      animation: none;
+    }
+  }
+
+  .ms-cf-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    min-width: 0;
+  }
+  .ms-cfield {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .ms-cfield-mt {
+    margin-top: 18px;
+    gap: 8px;
+  }
+  .ms-cfield > span {
+    font-weight: 700;
+    font-size: 13px;
+    color: #2f333f;
+  }
+  .ms-cinput {
+    font-family: inherit;
+    font-size: 15px;
+    padding: 14px 15px;
+    border: 1.5px solid #e4e7f1;
+    border-radius: 13px;
+    background: #f7f8fc;
+    color: #14161d;
+    outline: none;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .ms-cinput:focus {
+    border-color: #2b57f0;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(43, 87, 240, 0.12);
+  }
+  textarea.ms-cinput {
+    resize: vertical;
+  }
+  .ms-cselect {
+    position: relative;
+  }
+  .ms-cselect select {
+    width: 100%;
+    padding-right: 42px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+  .ms-cselect svg {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  .ms-csubmit {
+    margin-top: 26px;
+    width: 100%;
+    justify-content: center;
+    padding: 17px;
+    font-size: 16.5px;
+    box-shadow: 0 14px 32px rgba(43, 87, 240, 0.4);
+  }
+  .ms-cfine {
+    text-align: center;
+    font-size: 12.5px;
+    color: #8b8f9e;
+    margin: 14px 0 0;
+  }
+  .ms-cstatus {
+    text-align: center;
+    font-size: 13.5px;
+    min-height: 1em;
+    margin: 8px 0 0;
+  }
+  .ms-cstatus[data-state='error'] {
+    color: #c0362c;
+  }
+  .ms-cstatus[data-state='ok'] {
+    color: #1f9d55;
+  }
+
+  .ms-cdone {
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .ms-cdone-ico {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #e9f7ee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ms-cdone-title {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 20px 0 0;
+    color: #0c1023;
+  }
+  .ms-cdone-sub {
+    font-size: 16px;
+    color: #565a69;
+    margin: 10px 0 0;
+    max-width: 320px;
+  }
+  .ms-cdone-sub a {
+    color: #2b57f0;
+    font-weight: 700;
+  }
+
+  @media (max-width: 56.25rem) {
+    .ms-contact-card {
+      grid-template-columns: 1fr;
+    }
+    .ms-contact-info,
+    .ms-contact-formpanel {
+      padding: 60px 20px;
+    }
+    .ms-contact-trust {
+      margin-top: 40px;
+    }
+  }
+  @media (max-width: 43.75rem) {
+    .ms-contact-sec {
+      padding: 0 10px;
+    }
+    .ms-contact-inner {
+      padding: 20px 0 60px;
+    }
+    .ms-contact-formpanel {
+      padding: 60px 20px 30px 20px;
+    }
+    .ms-cf-2col {
+      grid-template-columns: 1fr;
+    }
+    .ms-contact-trust {
+      padding-top: 0;
+    }
+  }
+</style>

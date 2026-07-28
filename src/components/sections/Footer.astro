@@ -1,0 +1,346 @@
+---
+// Footer — transcribed 1:1 from the design. Navy, four columns, an availability
+// pill (pulsing dot), a decorative ghost wordmark with a hairline, and a bottom
+// legal bar.
+import { CONTACT } from '@data/constants';
+import logo from '@images/design/logo.svg';
+
+const servicesLinks = [
+  'Emergency Locksmith',
+  'Residential Locksmith',
+  'Automotive Locksmith',
+  'Commercial Locksmith',
+];
+const companyLinks = [
+  { name: 'Pricing', url: '/#pricing' },
+  { name: 'Reviews', url: '/#reviews' },
+  { name: 'FAQ', url: '/#faq' },
+  { name: 'Contact', url: '/#contact' },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="ms-footer">
+  <div class="ms-foot-glow ms-foot-glow1" aria-hidden="true"></div>
+  <div class="ms-foot-glow ms-foot-glow2" aria-hidden="true"></div>
+  <div class="ms-foot-inner">
+    <div class="ms-footer-grid reveal">
+      {/* Brand */}
+      <div>
+        <a href="/" aria-label="Mass Secure Locksmith — home">
+          <img
+            src={logo.src}
+            alt="Mass Secure Locksmith"
+            width="167"
+            height="49"
+            class="ms-foot-logo"
+          />
+        </a>
+        <p class="ms-foot-desc">
+          24/7 licensed, bonded and insured locksmith service for homes, cars and
+          businesses across Greater Boston and Massachusetts.
+        </p>
+        <div class="ms-foot-avail-pill">
+          <span class="ms-foot-ping"></span>
+          <span class="ms-foot-avail"
+            ><span class="ms-foot-avail-full">Available now · </span>Open 24
+            hours</span
+          >
+        </div>
+      </div>
+
+      {/* Services */}
+      <div>
+        <h4 class="ms-foot-h">Services</h4>
+        <div class="ms-foot-links">
+          {servicesLinks.map(name => <a href="/#services">{name}</a>)}
+        </div>
+      </div>
+
+      {/* Company */}
+      <div>
+        <h4 class="ms-foot-h">Company</h4>
+        <div class="ms-foot-links">
+          {companyLinks.map(l => <a href={l.url}>{l.name}</a>)}
+        </div>
+      </div>
+
+      {/* Get in touch */}
+      <div>
+        <h4 class="ms-foot-h">Get in touch</h4>
+        <div class="ms-foot-contact">
+          <a href={CONTACT.phoneHref} class="ms-foot-cwhite" data-track="call_click">
+            <span class="ms-foot-cap">CALL 24/7</span>
+            <span class="ms-foot-cphone">{CONTACT.phoneDisplay}</span>
+          </a>
+          <a href={CONTACT.emailHref}>
+            <span class="ms-foot-cap">EMAIL</span>
+            <span class="ms-foot-cval">{CONTACT.email}</span>
+          </a>
+          <div>
+            <span class="ms-foot-cap">SERVICE AREA</span>
+            <span class="ms-foot-cval">Greater Boston &amp; all of MA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Decorative ghost wordmark + hairline */}
+    <div class="ms-foot-ghostwrap">
+      <div class="ms-foot-ghost" aria-hidden="true">Mass Secure</div>
+      <span class="ms-foot-hair" aria-hidden="true"></span>
+    </div>
+
+    {/* Bottom bar */}
+    <div class="ms-foot-bottom">
+      <span>© {year} Mass Secure Locksmith. All rights reserved.</span>
+      <span class="ms-foot-legal">
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/terms/">Terms of Service</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ms-footer {
+    position: relative;
+    overflow: hidden;
+    background: #0f1734;
+    color: #aeb5d1;
+  }
+  .ms-foot-glow {
+    position: absolute;
+    pointer-events: none;
+  }
+  .ms-foot-glow1 {
+    top: -280px;
+    right: -160px;
+    width: 720px;
+    height: 720px;
+    background: radial-gradient(circle, rgba(43, 87, 240, 0.28), transparent 68%);
+  }
+  .ms-foot-glow2 {
+    bottom: -320px;
+    left: -180px;
+    width: 680px;
+    height: 680px;
+    background: radial-gradient(circle, rgba(124, 92, 255, 0.18), transparent 68%);
+  }
+  .ms-foot-inner {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .ms-footer-grid {
+    display: grid;
+    grid-template-columns: 1.7fr 1fr 1fr 1.2fr;
+    gap: 56px;
+    padding: 88px 0 72px;
+  }
+  .ms-foot-logo {
+    height: 46px;
+    width: auto;
+    display: block;
+  }
+  .ms-foot-desc {
+    font-size: 15px;
+    line-height: 1.75;
+    margin: 24px 0 0;
+    max-width: 320px;
+    color: #9aa2c2;
+  }
+  .ms-foot-avail-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 28px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    padding: 9px 16px 9px 13px;
+  }
+  .ms-foot-ping {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #3ad07f;
+    flex-shrink: 0;
+    animation: msFootPing 2s ease-out infinite;
+  }
+  @keyframes msFootPing {
+    0% {
+      transform: scale(1);
+      opacity: 0.55;
+    }
+    80%,
+    100% {
+      transform: scale(2.6);
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ms-foot-ping {
+      animation: none;
+    }
+  }
+  .ms-foot-avail {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #cdd6f2;
+  }
+
+  .ms-foot-h {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 0 0 22px;
+  }
+  .ms-foot-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-size: 14.5px;
+  }
+  .ms-foot-links a {
+    color: #9aa2c2;
+    transition: color 0.2s ease;
+  }
+  .ms-foot-links a:hover {
+    color: #fff;
+  }
+
+  .ms-foot-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .ms-foot-contact a,
+  .ms-foot-contact > div {
+    display: block;
+    color: #9aa2c2;
+  }
+  .ms-foot-cwhite {
+    color: #fff !important;
+  }
+  .ms-foot-cap {
+    display: block;
+    font-size: 12px;
+    color: #7c8bb8;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+  }
+  .ms-foot-cphone {
+    display: block;
+    font-size: 14.5px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+    margin-top: 3px;
+  }
+  .ms-foot-cval {
+    display: block;
+    font-size: 14.5px;
+    margin-top: 3px;
+  }
+
+  .ms-foot-ghostwrap {
+    position: relative;
+    overflow: hidden;
+  }
+  .ms-foot-ghost {
+    font-size: 150px;
+    font-weight: 800;
+    letter-spacing: -5px;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.045);
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+    margin: 8px 0 -14px;
+  }
+  .ms-foot-hair {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.14) 20%,
+      rgba(255, 255, 255, 0.14) 80%,
+      transparent
+    );
+  }
+
+  .ms-foot-bottom {
+    padding: 28px 0 36px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #7c8bb8;
+  }
+  .ms-foot-legal {
+    display: flex;
+    gap: 24px;
+  }
+  .ms-foot-legal a {
+    color: #7c8bb8;
+    transition: color 0.2s ease;
+  }
+  .ms-foot-legal a:hover {
+    color: #fff;
+  }
+
+  @media (max-width: 56.25rem) {
+    .ms-footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    .ms-footer-grid > div:first-child {
+      grid-column: 1 / -1;
+    }
+    .ms-foot-avail-full {
+      display: none;
+    }
+    .ms-foot-avail {
+      font-size: 11.5px;
+    }
+    .ms-foot-avail-pill {
+      gap: 15px;
+    }
+    .ms-foot-ghost {
+      font-size: 84px;
+    }
+  }
+  @media (max-width: 43.75rem) {
+    .ms-foot-inner {
+      padding: 0;
+    }
+    .ms-footer-grid {
+      padding: 64px 10px 30px 10px;
+    }
+    .ms-footer-grid > div:last-child {
+      grid-column: 1 / -1;
+    }
+    .ms-foot-bottom {
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      padding: 28px 0 20px 0;
+      gap: 8px;
+    }
+    .ms-foot-ghostwrap {
+      display: none;
+    }
+    .ms-foot-h {
+      margin: 40px 0 15px 0;
+    }
+  }
+</style>

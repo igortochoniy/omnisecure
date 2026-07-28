@@ -1,0 +1,225 @@
+---
+// FAQ (design handoff §4.7) — full-width single-column accordion. Single-open,
+// item 0 open by default; open item gets a blue border, the chevron chip fills
+// blue and rotates, and the answer expands via a grid-rows 0fr→1fr transition.
+
+// Questions & answers verbatim from the design prototype.
+const faqs = [
+  {
+    q: 'How fast can you get to me?',
+    a: 'For emergencies we typically arrive within 20–30 minutes anywhere in Greater Boston, and we serve the entire state of Massachusetts around the clock.',
+  },
+  {
+    q: 'Are you licensed and insured?',
+    a: 'Yes. Mass Secure Locksmith is fully licensed, bonded and insured in Massachusetts, so every job is protected and done to code.',
+  },
+  {
+    q: 'Will you damage my lock or door?',
+    a: 'Almost never. Our technicians use non-destructive entry techniques whenever possible, so in most lockouts nothing needs to be replaced.',
+  },
+  {
+    q: 'How much will it cost?',
+    a: "A flat $65 service-call fee covers travel to your location. Service pricing starts at $75–$95+, and you'll always get a clear quote before any work begins — no hidden fees.",
+  },
+  {
+    q: 'Do you program car keys and fobs?',
+    a: 'Yes. We cut and program transponder keys and key fobs for most makes and models, usually at a fraction of the dealership price.',
+  },
+  {
+    q: 'What payment methods do you accept?',
+    a: "We accept all major credit cards, debit, and cash. You'll receive an itemized receipt for every job.",
+  },
+];
+---
+
+<section id="faq" class="ms-faq-sec">
+  <div class="ms-faq-inner mx-auto w-full max-w-[1140px] px-6">
+    <div class="reveal mx-auto mb-11 max-w-[620px] text-center max-xs:px-5">
+      <p class="ms-kicker">FAQ</p>
+      <h2 class="ms-h2 ms-faq-h2">Questions, answered</h2>
+      <p class="ms-lead ms-faq-lead">
+        Everything you need to know before you call. Still unsure? We're one ring
+        away, 24/7.
+      </p>
+    </div>
+
+    <div class="ms-faq-list reveal">
+      {
+        faqs.map((item, i) => (
+          <div class:list={['ms-faq-item', i === 0 && 'is-open']}>
+            <button
+              type="button"
+              class="ms-faq-q"
+              aria-expanded={i === 0 ? 'true' : 'false'}
+            >
+              <span class="ms-faq-num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="ms-faq-text">{item.q}</span>
+              <span class="ms-faq-chip" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </span>
+            </button>
+            <div class="ms-faq-a">
+              <div class="ms-faq-a-inner">
+                <p>{item.a}</p>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .ms-faq-sec {
+    background: #ffffff;
+    scroll-margin-top: 0;
+  }
+  .ms-faq-inner {
+    padding: 96px 24px;
+  }
+  .ms-faq-h2 {
+    font-size: 44px;
+    line-height: 1.05;
+    letter-spacing: -1.6px;
+  }
+  .ms-faq-lead {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  .ms-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  @media (max-width: 43.75rem) {
+    .ms-faq-sec {
+      padding: 0 10px;
+    }
+    .ms-faq-inner {
+      padding: 64px 0;
+    }
+  }
+  .ms-faq-item {
+    background: #fff;
+    border: 1px solid #eceef6;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(16, 24, 50, 0.04);
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .ms-faq-item.is-open {
+    border-color: #c9d6fb;
+    box-shadow: 0 18px 44px rgba(43, 87, 240, 0.12);
+  }
+  .ms-faq-q {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 22px 24px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+  }
+  .ms-faq-num {
+    flex-shrink: 0;
+    width: 26px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #b4bacb;
+    transition: color 0.25s ease;
+  }
+  .ms-faq-item.is-open .ms-faq-num {
+    color: #2b57f0;
+  }
+  .ms-faq-text {
+    flex: 1;
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a1d29;
+    transition: color 0.25s ease;
+  }
+  .ms-faq-item.is-open .ms-faq-text {
+    color: #0c1023;
+  }
+  .ms-faq-chip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #eaf0ff;
+    color: #2b57f0;
+    transition:
+      transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+      background 0.25s ease;
+  }
+  .ms-faq-item.is-open .ms-faq-chip {
+    background: #2b57f0;
+    color: #fff;
+    transform: rotate(180deg);
+  }
+  .ms-faq-a {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    transition: grid-template-rows 0.28s ease;
+  }
+  .ms-faq-item.is-open .ms-faq-a {
+    grid-template-rows: 1fr;
+  }
+  .ms-faq-a-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+  .ms-faq-a-inner p {
+    margin: 0;
+    padding: 0 24px 22px 66px;
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: #565a69;
+  }
+  @media (max-width: 43.75rem) {
+    .ms-faq-a-inner p {
+      padding-left: 24px;
+    }
+  }
+</style>
+
+<script>
+  const items = document.querySelectorAll<HTMLElement>('.ms-faq-item');
+  items.forEach(item => {
+    const btn = item.querySelector<HTMLButtonElement>('.ms-faq-q');
+    btn?.addEventListener('click', () => {
+      const open = item.classList.contains('is-open');
+      items.forEach(other => {
+        other.classList.remove('is-open');
+        other
+          .querySelector('.ms-faq-q')
+          ?.setAttribute('aria-expanded', 'false');
+      });
+      if (!open) {
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>

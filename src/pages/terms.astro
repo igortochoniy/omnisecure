@@ -1,0 +1,113 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import { SITE, CONTACT } from '@data/constants';
+
+// TODO: have the client / their legal advisor review this template before launch.
+const updated = 'July 2026';
+---
+
+<MainLayout
+  title={`Terms of Service | ${SITE.title}`}
+  customDescription="The terms that apply when you request or receive locksmith services from Mass Secure Locksmith."
+  headerSolid={true}
+  noindex={true}
+>
+  <article class="ms-legal">
+    <div class="mx-auto w-full max-w-[820px] px-6">
+      <Breadcrumbs
+        items={[{ name: 'Home', href: '/' }, { name: 'Terms of Service' }]}
+      />
+      <h1 class="ms-legal-h1">Terms of Service</h1>
+      <p class="ms-legal-meta">Last updated: {updated}</p>
+
+      <p>
+        These terms apply when you request or receive locksmith services from
+        {SITE.title}. By contacting us or booking a job you agree to them.
+      </p>
+
+      <h2>Our services</h2>
+      <p>
+        We provide emergency, residential, automotive and commercial locksmith
+        services across {CONTACT.areaLong}. Availability and response times are
+        estimates and can vary with demand, weather and traffic.
+      </p>
+
+      <h2>Quotes &amp; pricing</h2>
+      <p>
+        A flat service-call fee covers travel to your location. We confirm a
+        clear, itemized quote on site before any work begins; the final price is
+        agreed with you before we start.
+      </p>
+
+      <h2>Payment</h2>
+      <p>
+        Payment is due on completion unless agreed otherwise. We accept major
+        credit cards, debit and cash, and provide an itemized receipt.
+      </p>
+
+      <h2>Workmanship</h2>
+      <p>
+        We use non-destructive entry methods wherever possible and carry out
+        work to a professional standard. Any warranty on parts or labour will be
+        confirmed with you for the specific job.
+      </p>
+
+      <h2>Liability</h2>
+      <p>
+        We are licensed, bonded and insured in Massachusetts. Nothing in these
+        terms limits any rights you have that cannot be limited under applicable
+        law.
+      </p>
+
+      <h2>Contact us</h2>
+      <p>
+        Questions about these terms? Reach us at
+        <a href={CONTACT.emailHref}>{CONTACT.email}</a> or
+        <a href={CONTACT.phoneHref} data-track="call_click">{CONTACT.phoneDisplay}</a
+        >.
+      </p>
+    </div>
+  </article>
+</MainLayout>
+
+<style>
+  .ms-legal {
+    padding: 56px 0 96px;
+    color: var(--color-muted);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .ms-legal-h1 {
+    margin-top: 20px;
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -1.4px;
+    color: var(--color-ink);
+  }
+  .ms-legal-meta {
+    margin-top: 8px;
+    margin-bottom: 28px;
+    font-size: 14px;
+    color: var(--color-muted);
+  }
+  .ms-legal h2 {
+    margin-top: 34px;
+    margin-bottom: 10px;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--color-ink);
+  }
+  .ms-legal p {
+    margin-bottom: 14px;
+  }
+  .ms-legal a {
+    color: var(--color-brand);
+    font-weight: 600;
+  }
+  @media (max-width: 43.75rem) {
+    .ms-legal-h1 {
+      font-size: 32px;
+    }
+  }
+</style>

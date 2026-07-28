@@ -1,0 +1,384 @@
+---
+// Reviews — transcribed 1:1 from the design. Lavender section fading to white at
+// the bottom, a two-row auto-scrolling carousel (desktop) / snap carousel with
+// arrows (mobile), and a trust strip. Behaviour lives in @scripts/reviews.
+import ReviewCard from '@components/sections/ReviewCard.astro';
+import googleLogo from '@images/design/google.svg';
+import thumbtackLogo from '@images/design/thumbtack.svg';
+import angiLogo from '@images/design/angi.svg';
+
+// Quotes/names/roles/cities verbatim from the design. 8 reviews, 4 per row.
+// TODO: swap for the client's real, verified reviews before launch.
+const row1 = [
+  {
+    quote:
+      'They arrived in 22 minutes when we were locked out at 1am with a toddler in the car — and got us in without a scratch.',
+    name: 'Priya S.',
+    role: 'Homeowner',
+    city: 'Boston, MA',
+    platform: 'Google' as const,
+    initials: 'PS',
+  },
+  {
+    quote:
+      'Rekeyed every door for our shop the same day we called. Professional, insured, and no surprise charges.',
+    name: 'Marcus T.',
+    role: 'Retail Owner',
+    city: 'Cambridge, MA',
+    platform: 'Thumbtack' as const,
+    initials: 'MT',
+  },
+  {
+    quote:
+      'Programmed a new key fob for my truck for a fraction of the dealer quote. Honest, fast and friendly.',
+    name: 'Kevin L.',
+    role: 'Driver',
+    city: 'Springfield, MA',
+    platform: 'Angi' as const,
+    initials: 'KL',
+  },
+  {
+    quote:
+      'Installed smart locks on our whole rental portfolio. Clear pricing and a clean install every single time.',
+    name: 'Anna M.',
+    role: 'Property Manager',
+    city: 'Lowell, MA',
+    platform: 'Google' as const,
+    initials: 'AM',
+  },
+];
+const row2 = [
+  {
+    quote:
+      'Replaced our rusted front-door deadbolt in under an hour. Clean work, fair price, super friendly tech.',
+    name: 'Danielle R.',
+    role: 'Homeowner',
+    city: 'Worcester, MA',
+    platform: 'Google' as const,
+    initials: 'DR',
+  },
+  {
+    quote:
+      'Upgraded our office to a master-key system. Punctual, tidy, and walked us through every option first.',
+    name: 'James C.',
+    role: 'Office Manager',
+    city: 'Quincy, MA',
+    platform: 'Angi' as const,
+    initials: 'JC',
+  },
+  {
+    quote:
+      'Fast response and fair pricing when our storefront lock jammed on a Sunday. Saved our whole weekend.',
+    name: 'Linh N.',
+    role: 'Cafe Owner',
+    city: 'Framingham, MA',
+    platform: 'Thumbtack' as const,
+    initials: 'LN',
+  },
+  {
+    quote:
+      'They re-keyed the house the day we moved in and set up a smart lock. Friendly, professional, on time.',
+    name: 'Ray B.',
+    role: 'Homeowner',
+    city: 'Somerville, MA',
+    platform: 'Google' as const,
+    initials: 'RB',
+  },
+];
+---
+
+<section id="reviews" class="ms-rev-sec">
+  <div class="ms-rev-fade" aria-hidden="true"></div>
+  <div class="mx-auto w-full max-w-[1140px] px-6 py-[108px] max-xs:px-0 max-xs:py-16">
+    <div class="reveal mx-auto max-w-[720px] text-center max-xs:px-5">
+      <p class="ms-kicker">Reviews</p>
+      <h2 class="ms-h2">
+        Rated 5 stars, <br class="max-xs:hidden" />everywhere it counts
+      </h2>
+      <p class="ms-lead">
+        Homeowners and businesses across Massachusetts keep giving us perfect
+        scores on the platforms they trust most.
+      </p>
+    </div>
+
+    {/* Two auto-scrolling rows */}
+    <div class="ms-rev-rows">
+      <div class="ms-marquee" data-dir="1">
+        <div class="ms-marquee-track">
+          <div class="ms-marquee-group">
+            {row1.map(r => <ReviewCard {...r} />)}
+          </div>
+        </div>
+      </div>
+      <div class="ms-marquee ms-rev-row2" data-dir="-1">
+        <div class="ms-marquee-track">
+          <div class="ms-marquee-group">
+            {row2.map(r => <ReviewCard {...r} />)}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Mobile arrows */}
+    <div class="ms-rev-nav">
+      <button type="button" data-dir="prev" aria-label="Previous review">
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="#0c1023"
+          stroke-width="2.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M15 6l-6 6 6 6"></path>
+        </svg>
+      </button>
+      <button type="button" data-dir="next" aria-label="Next review">
+        <svg
+          viewBox="0 0 24 24"
+          width="20"
+          height="20"
+          fill="none"
+          stroke="#0c1023"
+          stroke-width="2.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M9 6l6 6-6 6"></path>
+        </svg>
+      </button>
+    </div>
+
+    {/* Trust strip */}
+    <div class="ms-trust reveal">
+      <div class="ms-trust-score">
+        <span class="ms-trust-big">5.0</span>
+        <div class="ms-trust-meta">
+          <span class="ms-trust-stars">★★★★★</span>
+          <span class="ms-trust-count">400+ verified reviews</span>
+        </div>
+      </div>
+      <span class="ms-trust-divider" aria-hidden="true"></span>
+      <div class="ms-trust-plats">
+        <img src={googleLogo.src} alt="Google" height="32" class="ms-plat-google" />
+        <img
+          src={thumbtackLogo.src}
+          alt="Thumbtack"
+          height="32"
+          class="ms-plat-thumbtack"
+        />
+        <img src={angiLogo.src} alt="Angi" height="22" class="ms-plat-angi" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ms-rev-sec {
+    position: relative;
+    background: #ecf0fb;
+    overflow: hidden;
+    scroll-margin-top: 0;
+  }
+  .ms-rev-fade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 180px;
+    background: linear-gradient(180deg, transparent, #ffffff);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .ms-rev-rows {
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .ms-marquee {
+    overflow-x: auto;
+    overflow-y: hidden;
+    position: relative;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    padding: 26px 0 46px;
+    margin: -20px 0 -30px;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 7%,
+      #000 93%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 7%,
+      #000 93%,
+      transparent
+    );
+  }
+  .ms-marquee::-webkit-scrollbar {
+    display: none;
+  }
+  .ms-marquee.dragging {
+    cursor: grabbing;
+  }
+  .ms-marquee-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+  }
+  .ms-marquee-group {
+    display: flex;
+    gap: 20px;
+  }
+
+  .ms-rev-nav {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 30px;
+    position: relative;
+    z-index: 2;
+  }
+  .ms-rev-nav button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid #d6dbe9;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(16, 24, 50, 0.1);
+  }
+
+  /* Trust strip */
+  .ms-trust {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 18px 40px;
+    margin-top: 48px;
+    position: relative;
+    z-index: 2;
+  }
+  .ms-trust-score {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .ms-trust-big {
+    font-size: 46px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: #0c1023;
+    line-height: 1;
+  }
+  .ms-trust-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: stretch;
+  }
+  .ms-trust-stars {
+    display: flex;
+    justify-content: space-between;
+    color: #f5a623;
+    font-size: 21px;
+  }
+  .ms-trust-count {
+    font-size: 13px;
+    color: #7c8091;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .ms-trust-divider {
+    width: 1px;
+    height: 42px;
+    background: #d6dbe9;
+  }
+  .ms-trust-plats {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  /* Explicit heights: Tailwind Preflight sets img{height:auto}, which overrides
+     the height="" attributes — so pin the design sizes here. */
+  .ms-trust-plats img {
+    width: auto;
+  }
+  .ms-plat-google,
+  .ms-plat-thumbtack {
+    height: 32px;
+  }
+  .ms-plat-angi {
+    height: 22px;
+  }
+  .ms-plat-thumbtack {
+    transform: rotate(180deg);
+  }
+
+  @media (max-width: 56.25rem) {
+    .ms-marquee {
+      scroll-snap-type: x mandatory;
+      touch-action: pan-x;
+      -webkit-mask-image: none;
+      mask-image: none;
+      cursor: default;
+      padding: 24px 60px 40px;
+      scroll-padding: 0 60px;
+      margin: 0;
+    }
+    .ms-marquee-track,
+    .ms-marquee-group {
+      gap: 60px;
+    }
+    .ms-rev-row2 {
+      display: none;
+    }
+    .ms-rev-nav {
+      display: flex;
+    }
+  }
+  @media (max-width: 43.75rem) {
+    /* Phone: tighten the gutter to 20px (card width lives in ReviewCard.astro,
+       which owns the .ms-rev-card element scope). */
+    .ms-marquee {
+      padding: 26px 20px 40px;
+      scroll-padding: 0 20px;
+    }
+    .ms-marquee-group,
+    .ms-marquee-track {
+      gap: 20px;
+    }
+    .ms-trust {
+      flex-direction: column;
+      gap: 22px;
+    }
+    .ms-trust-stars {
+      font-size: 26px;
+      justify-content: center;
+      gap: 2px;
+    }
+    .ms-trust-divider {
+      display: none;
+    }
+    .ms-trust-plats {
+      justify-content: center;
+      gap: 20px;
+    }
+    .ms-plat-angi {
+      height: 32px;
+    }
+  }
+</style>

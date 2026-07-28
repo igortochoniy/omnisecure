@@ -34,10 +34,20 @@ forms.forEach(form => {
       if (res.ok && json.ok) {
         form.reset();
         track('form_submit');
-        setStatus(
-          'Thanks! We received your message and will get back to you shortly.',
-          true
+        // If a success panel is provided next to the form, swap the form out for
+        // it (design's success state); otherwise show an inline status message.
+        const panel = form.parentElement?.querySelector<HTMLElement>(
+          '[data-form-success]'
         );
+        if (panel) {
+          form.hidden = true;
+          panel.hidden = false;
+        } else {
+          setStatus(
+            'Thanks! We received your message and will get back to you shortly.',
+            true
+          );
+        }
       } else {
         setStatus(
           json.error || 'Something went wrong. Please try again.',
