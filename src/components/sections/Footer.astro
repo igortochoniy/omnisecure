@@ -3,7 +3,7 @@
 // pill (pulsing dot), a decorative ghost wordmark with a hairline, and a bottom
 // legal bar.
 import { CONTACT } from '@data/constants';
-import logo from '@images/design/logo.svg';
+import Logo from '@components/ui/Logo.astro';
 
 const servicesLinks = [
   'Emergency Locksmith',
@@ -27,14 +27,8 @@ const year = new Date().getFullYear();
     <div class="ms-footer-grid reveal">
       {/* Brand */}
       <div>
-        <a href="/" aria-label="Mass Secure Locksmith — home">
-          <img
-            src={logo.src}
-            alt="Mass Secure Locksmith"
-            width="167"
-            height="49"
-            class="ms-foot-logo"
-          />
+        <a href="/" class="ms-foot-logo" aria-label="OmniSecure Locksmith — home">
+          <Logo size="md" />
         </a>
         <p class="ms-foot-desc">
           24/7 licensed, bonded and insured locksmith service for homes, cars and
@@ -87,13 +81,13 @@ const year = new Date().getFullYear();
 
     {/* Decorative ghost wordmark + hairline */}
     <div class="ms-foot-ghostwrap">
-      <div class="ms-foot-ghost" aria-hidden="true">Mass Secure</div>
+      <div class="ms-foot-ghost" aria-hidden="true">OmniSecure</div>
       <span class="ms-foot-hair" aria-hidden="true"></span>
     </div>
 
     {/* Bottom bar */}
     <div class="ms-foot-bottom">
-      <span>© {year} Mass Secure Locksmith. All rights reserved.</span>
+      <span>© {year} OmniSecure Locksmith. All rights reserved.</span>
       <span class="ms-foot-legal">
         <a href="/privacy-policy/">Privacy Policy</a>
         <a href="/terms/">Terms of Service</a>

@@ -4,8 +4,8 @@
 // blue call CTA. Below 900px (`nav`): nav + call label hide, hamburger opens a
 // full-screen overlay.
 import Button from '@components/ui/Button.astro';
+import Logo from '@components/ui/Logo.astro';
 import { CONTACT } from '@data/constants';
-import logo from '@images/design/logo.svg'; // real design wordmark (extracted from the prototype)
 
 interface Props {
   solid?: boolean;
@@ -36,9 +36,9 @@ const navLinks = [
   <div
     class="relative z-50 mx-auto flex max-w-[1200px] items-center justify-between gap-6 px-6 py-4"
   >
-    {/* Logo — real design wordmark. TODO: swap for the client's final logo file. */}
-    <a href="/" class="flex-none" aria-label="Mass Secure Locksmith — home">
-      <img src={logo.src} alt="Mass Secure Locksmith" width="167" height="49" class="h-12 w-auto" />
+    {/* Temporary text wordmark. TODO: swap for the client's final logo file. */}
+    <a href="/" class="flex-none" aria-label="OmniSecure Locksmith — home">
+      <Logo size="sm" />
     </a>
 
     {/* Desktop nav */}

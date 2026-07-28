@@ -1,14 +1,14 @@
 import ogImageSrc from '@images/social.png';
 
 export const SITE = {
-  title: 'Mass Secure Locksmith',
+  title: 'OmniSecure Locksmith',
   tagline: '24/7 Boston Locksmith',
   description:
-    'Mass Secure Locksmith — licensed 24/7 emergency, residential, commercial and automotive locksmith serving Boston and everywhere within a 30-mile radius. Same-day service, upfront pricing.',
+    'OmniSecure Locksmith — licensed 24/7 emergency, residential, commercial and automotive locksmith serving Boston and everywhere within a 30-mile radius. Same-day service, upfront pricing.',
   description_short:
     'Licensed 24/7 locksmith serving Boston & all of Massachusetts. Emergency lockouts, residential, automotive and commercial.',
   url: 'https://example.com',
-  author: 'Mass Secure Locksmith',
+  author: 'OmniSecure Locksmith',
 };
 
 // Verbatim contact info from the design handoff (§5). TODO: swap the placeholder
@@ -47,7 +47,7 @@ export const OG = {
   locale: 'en_US',
   type: 'website',
   url: SITE.url,
-  title: 'Mass Secure Locksmith — 24/7 Boston Locksmith',
+  title: 'OmniSecure Locksmith — 24/7 Boston Locksmith',
   description:
     'Day or night, your Boston locksmith is on the way. Licensed 24/7 emergency, residential, automotive and commercial locksmith services across Greater Boston & all of Massachusetts. Same-day service, upfront pricing.',
   image: ogImageSrc,

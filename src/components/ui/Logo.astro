@@ -1,0 +1,50 @@
+---
+// Temporary text wordmark (Manrope) standing in for the brand logo until the
+// client's final logo file lands. White, for the dark hero header + navy footer.
+// TODO: swap for the client's final OmniSecure logo (SVG) in Header + Footer.
+interface Props {
+  size?: 'sm' | 'md';
+  class?: string;
+}
+const { size = 'sm', class: cls = '' } = Astro.props;
+---
+
+<span class:list={['ms-logo', `is-${size}`, cls]} aria-hidden="true">
+  <span class="ms-logo-word">OmniSecure</span>
+  <span class="ms-logo-tag">Locksmith</span>
+</span>
+
+<style>
+  .ms-logo {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1;
+  }
+  .ms-logo-word {
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    color: #fff;
+  }
+  .ms-logo-tag {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .ms-logo.is-sm .ms-logo-word {
+    font-size: 23px;
+  }
+  .ms-logo.is-sm .ms-logo-tag {
+    font-size: 10px;
+    letter-spacing: 3.4px;
+    margin-top: 4px;
+  }
+  .ms-logo.is-md .ms-logo-word {
+    font-size: 26px;
+  }
+  .ms-logo.is-md .ms-logo-tag {
+    font-size: 11px;
+    letter-spacing: 3.8px;
+    margin-top: 5px;
+  }
+</style>
