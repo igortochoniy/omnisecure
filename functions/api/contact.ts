@@ -150,10 +150,10 @@ export const onRequestPost = async ({
   const html =
     '<h2 style="margin:0 0 12px">New enquiry</h2>' +
     `<p><strong>Name:</strong> ${escapeHtml(name)}</p>` +
-    `<p><strong>Email:</strong> ${escapeHtml(email) || '—'}</p>` +
     `<p><strong>Phone:</strong> ${escapeHtml(phone) || '—'}</p>` +
     `<p><strong>Service:</strong> ${escapeHtml(service) || '—'}</p>` +
-    `<p><strong>Message:</strong> ${escapeHtml(message) || '—'}</p>`;
+    `<p><strong>Message:</strong> ${escapeHtml(message) || '—'}</p>` +
+    (email ? `<p><strong>Email:</strong> ${escapeHtml(email)}</p>` : '');
 
   try {
     const res = await fetch('https://api.resend.com/emails', {
@@ -163,7 +163,7 @@ export const onRequestPost = async ({
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        from: env.CONTACT_FROM || 'Website <onboarding@resend.dev>',
+        from: env.CONTACT_FROM || 'OmniSecure <onboarding@resend.dev>',
         to: [env.CONTACT_TO],
         subject: `New enquiry from ${name}`,
         html,
