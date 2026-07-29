@@ -27,7 +27,7 @@ for (const file of fs.readdirSync(seoDir)) {
 // https://astro.build/config
 export default defineConfig({
   // Set the REAL domain on launch (affects sitemap + canonical/OG/JSON-LD).
-  site: 'https://example.com',
+  site: 'https://omnisecurelocksmith.com',
   image: {
     domains: ['images.unsplash.com'],
   },

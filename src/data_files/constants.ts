@@ -7,7 +7,7 @@ export const SITE = {
     'OmniSecure Locksmith — licensed 24/7 emergency, residential, commercial and automotive locksmith serving Boston and everywhere within a 30-mile radius. Same-day service, upfront pricing.',
   description_short:
     'Licensed 24/7 locksmith serving Boston & all of Massachusetts. Emergency lockouts, residential, automotive and commercial.',
-  url: 'https://example.com',
+  url: 'https://omnisecurelocksmith.com',
   author: 'OmniSecure Locksmith',
 };
 
