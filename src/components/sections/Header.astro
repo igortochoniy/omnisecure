@@ -107,27 +107,6 @@ const navLinks = [
     </button>
   </div>
 
-  {/* Liquid-glass distortion filter (used by the mobile menu's glass layer) */}
-  <svg width="0" height="0" class="ms-glass-defs" aria-hidden="true">
-    <defs>
-      <filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%">
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0.008 0.008"
-          numOctaves="2"
-          seed="92"
-          result="noise"></feTurbulence>
-        <feGaussianBlur in="noise" stdDeviation="2" result="blurred"></feGaussianBlur>
-        <feDisplacementMap
-          in="SourceGraphic"
-          in2="blurred"
-          scale="150"
-          xChannelSelector="R"
-          yChannelSelector="G"></feDisplacementMap>
-      </filter>
-    </defs>
-  </svg>
-
   {/* Mobile dropdown sheet — spacious frosted / liquid glass */}
   <div id="mobile-backdrop" class="mobile-backdrop" aria-hidden="true"></div>
   <nav id="mobile-menu" class="mobile-menu" aria-label="Mobile">
@@ -160,7 +139,6 @@ const navLinks = [
     inset: 0;
     z-index: 30;
     background: rgba(6, 10, 28, 0.5);
-    backdrop-filter: blur(2px);
     opacity: 0;
     visibility: hidden;
     transition:
@@ -172,62 +150,37 @@ const navLinks = [
     visibility: visible;
   }
 
-  .ms-glass-defs {
-    position: absolute;
-  }
-
-  /* Spacious liquid-glass dropdown sheet */
+  /* Spacious dropdown sheet — solid navy "glass" (no backdrop-filter). Live blur
+     flickers on open and sticks on close in Chrome, so we use a near-opaque navy
+     gradient instead; the whole sheet then fades + slides perfectly smoothly. */
   .mobile-menu {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 40;
-    isolation: isolate;
     border-radius: 0 0 28px 28px;
-    box-shadow: 0 30px 60px rgba(6, 10, 28, 0.55);
     padding: 104px 8px 40px;
-    transform: translateY(-14px);
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-      opacity 0.32s ease,
-      visibility 0.32s ease;
-  }
-  /* Tint + inner glass highlight */
-  .mobile-menu::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    border-radius: 0 0 28px 28px;
     background: linear-gradient(
       180deg,
-      rgba(16, 24, 58, 0.62),
-      rgba(11, 17, 42, 0.72)
+      rgba(15, 22, 52, 0.97),
+      rgba(9, 14, 36, 0.98)
     );
-    /* Dark vignette on the edges (was a light inner glow). */
-    box-shadow: inset 0 0 40px 4px rgba(4, 7, 22, 0.7);
-    border-bottom: 1px solid rgba(4, 7, 22, 0.5);
-    pointer-events: none;
-  }
-  /* Backdrop blur + liquid distortion of whatever is behind the sheet */
-  .mobile-menu::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: 0 0 28px 28px;
-    backdrop-filter: blur(16px) saturate(150%);
-    -webkit-backdrop-filter: blur(16px) saturate(150%);
-    filter: url(#glass-distortion);
-    -webkit-filter: url(#glass-distortion);
-    pointer-events: none;
+    border-bottom: 1px solid rgba(4, 7, 22, 0.6);
+    box-shadow:
+      0 30px 60px rgba(6, 10, 28, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    opacity: 0;
+    transform: translateY(-14px);
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0.3s ease;
   }
   header.menu-open .mobile-menu {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
     visibility: visible;
   }
   .mobile-menu-inner {
@@ -268,13 +221,6 @@ const navLinks = [
     .mobile-menu,
     .mobile-backdrop {
       display: none;
-    }
-  }
-  /* Safari has no SVG-filter support on backdrops — fall back to plain frost. */
-  @supports (-webkit-touch-callout: none) {
-    .mobile-menu::after {
-      filter: none;
-      -webkit-filter: none;
     }
   }
 </style>
