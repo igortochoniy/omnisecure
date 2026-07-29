@@ -72,52 +72,6 @@ const services = [
     <div class="ms-hero-grid">
       {/* ── Left column (text block fades up as one, see CSS) ── */}
       <div class="ms-hero-content">
-        <div class="ms-hero-stats">
-          <div class="ms-stat-pill">
-            <span class="ms-stat-ico">
-              <svg
-                viewBox="0 0 24 24"
-                width="15"
-                height="15"
-                fill="none"
-                stroke="#a9c2ff"
-                stroke-width="2.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M9 12l2 2 4-4"></path>
-                <path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z"></path>
-              </svg>
-            </span>
-            <span class="ms-stat-txt">
-              <span class="ms-stat-t">15+ years</span>
-              <span class="ms-stat-s">Licensed &amp; serving</span>
-            </span>
-          </div>
-          <div class="ms-stat-pill">
-            <span class="ms-stat-ico">
-              <svg
-                viewBox="0 0 24 24"
-                width="15"
-                height="15"
-                fill="none"
-                stroke="#a9c2ff"
-                stroke-width="2.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M13 2L4.5 13H11l-1 9 8.5-11H12z"></path>
-              </svg>
-            </span>
-            <span class="ms-stat-txt">
-              <span class="ms-stat-t">Same-day</span>
-              <span class="ms-stat-s">Most jobs on arrival</span>
-            </span>
-          </div>
-        </div>
-
         <h1 class="ms-hero-h1">
           Day or night, your <span class="ms-grad">Boston locksmith</span> is on the
           way.
@@ -430,6 +384,7 @@ const services = [
     }
   }
   .ms-hero-content {
+    margin-top: 120px;
     animation: msHeroUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
   }
   /* The form appears softly by fading its CONTENT in — the glass panel itself

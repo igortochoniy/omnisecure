@@ -3,7 +3,7 @@
 // pill (pulsing dot), a decorative ghost wordmark with a hairline, and a bottom
 // legal bar.
 import { CONTACT } from '@data/constants';
-import Logo from '@components/ui/Logo.astro';
+import footerLogo from '@images/design/footer-logo.svg';
 
 const servicesLinks = [
   'Emergency Locksmith',
@@ -27,8 +27,8 @@ const year = new Date().getFullYear();
     <div class="ms-footer-grid reveal">
       {/* Brand */}
       <div>
-        <a href="/" class="ms-foot-logo" aria-label="OmniSecure Locksmith — home">
-          <Logo size="md" />
+        <a href="/" aria-label="OmniSecure Locksmith LLC — home">
+          <img src={footerLogo.src} alt="OmniSecure Locksmith LLC" width="1123" height="299" class="ms-foot-logo" />
         </a>
         <p class="ms-foot-desc">
           24/7 licensed, bonded and insured locksmith service for homes, cars and
@@ -79,15 +79,9 @@ const year = new Date().getFullYear();
       </div>
     </div>
 
-    {/* Decorative ghost wordmark + hairline */}
-    <div class="ms-foot-ghostwrap">
-      <div class="ms-foot-ghost" aria-hidden="true"></div>
-      <span class="ms-foot-hair" aria-hidden="true"></span>
-    </div>
-
     {/* Bottom bar */}
     <div class="ms-foot-bottom">
-      <span>© {year} OmniSecure Locksmith. All rights reserved.</span>
+      <span>© {year} OmniSecure Locksmith LLC. All rights reserved.</span>
       <span class="ms-foot-legal">
         <a href="/privacy-policy/">Privacy Policy</a>
         <a href="/terms/">Terms of Service</a>
@@ -134,8 +128,8 @@ const year = new Date().getFullYear();
     padding: 88px 0 72px;
   }
   .ms-foot-logo {
-    height: 46px;
-    width: auto;
+    width: 240px;
+    height: auto;
     display: block;
   }
   .ms-foot-desc {
@@ -240,40 +234,6 @@ const year = new Date().getFullYear();
     margin-top: 3px;
   }
 
-  .ms-foot-ghostwrap {
-    position: relative;
-    overflow: hidden;
-  }
-  .ms-foot-ghost::before {
-    /* Decorative wordmark rendered via pseudo-content so the low-contrast (by
-       design) faded text is not flagged by the a11y contrast audit. */
-    content: 'OmniSecure';
-  }
-  .ms-foot-ghost {
-    font-size: 150px;
-    font-weight: 800;
-    letter-spacing: -5px;
-    line-height: 1;
-    color: rgba(255, 255, 255, 0.045);
-    white-space: nowrap;
-    user-select: none;
-    pointer-events: none;
-    margin: 8px 0 -14px;
-  }
-  .ms-foot-hair {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.14) 20%,
-      rgba(255, 255, 255, 0.14) 80%,
-      transparent
-    );
-  }
 
   .ms-foot-bottom {
     padding: 28px 0 36px;
@@ -314,11 +274,11 @@ const year = new Date().getFullYear();
     .ms-foot-avail-pill {
       gap: 15px;
     }
-    .ms-foot-ghost {
-      font-size: 84px;
-    }
   }
   @media (max-width: 43.75rem) {
+    .ms-foot-logo {
+      width: 200px;
+    }
     .ms-foot-inner {
       padding: 0;
     }
@@ -334,9 +294,6 @@ const year = new Date().getFullYear();
       text-align: center;
       padding: 28px 0 20px 0;
       gap: 8px;
-    }
-    .ms-foot-ghostwrap {
-      display: none;
     }
     .ms-foot-h {
       margin: 40px 0 15px 0;

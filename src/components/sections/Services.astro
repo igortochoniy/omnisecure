@@ -36,7 +36,7 @@ const cards = [
 
 <section id="services" class="ms-svc-sec">
   <div class="ms-svc-inner mx-auto w-full max-w-[1140px] px-6">
-    <div class="reveal mx-auto max-w-[720px] text-center max-xs:px-5">
+    <div class="reveal mx-auto max-w-[720px] text-center">
       <p class="ms-kicker">Our Services</p>
       <h2 class="ms-h2">
         Everything you lock. <br class="max-xs:hidden" />One team you trust.
@@ -45,6 +45,32 @@ const cards = [
         From a 2&nbsp;a.m. lockout to a full commercial master-key system —
         certified technicians, done fast and done clean.
       </p>
+
+      <div class="ms-svc-stats">
+        <div class="ms-svc-stat">
+          <span class="ms-svc-stat-ico">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#2b57f0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 12l2 2 4-4"></path>
+              <path d="M12 3l7 4v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V7z"></path>
+            </svg>
+          </span>
+          <span class="ms-svc-stat-txt">
+            <span class="ms-svc-stat-t">Licensed</span>
+            <span class="ms-svc-stat-s">Professional services.</span>
+          </span>
+        </div>
+        <div class="ms-svc-stat">
+          <span class="ms-svc-stat-ico">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#2b57f0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M13 2L4.5 13H11l-1 9 8.5-11H12z"></path>
+            </svg>
+          </span>
+          <span class="ms-svc-stat-txt">
+            <span class="ms-svc-stat-t">Same-day</span>
+            <span class="ms-svc-stat-s">Most jobs on arrival</span>
+          </span>
+        </div>
+      </div>
     </div>
 
     <div class="mt-[68px] grid gap-6 nav:grid-cols-2">
@@ -59,6 +85,77 @@ const cards = [
     background: #f5f6fb;
     overflow: hidden;
     scroll-margin-top: 0;
+  }
+
+  /* Trust stat pills (moved from the hero) — light-section styling, centered,
+     equal width. */
+  .ms-svc-stats {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 12px;
+    margin: 30px auto 0;
+    max-width: 520px;
+  }
+  .ms-svc-stat {
+    flex: 1 1 0;
+    min-width: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    background: #ffffff;
+    border: 1px solid #e5e8f2;
+    border-radius: 22px;
+    padding: 10px 16px;
+    box-shadow: 0 6px 18px rgba(16, 24, 50, 0.06);
+  }
+  @media (max-width: 43.75rem) {
+    .ms-svc-stats {
+      gap: 8px;
+      max-width: 100%;
+    }
+    .ms-svc-stat {
+      gap: 8px;
+      padding: 9px 10px;
+    }
+    .ms-svc-stat-ico {
+      width: 30px;
+      height: 30px;
+    }
+    .ms-svc-stat-t {
+      font-size: 13.5px;
+    }
+    .ms-svc-stat-s {
+      font-size: 11px;
+    }
+  }
+  .ms-svc-stat-ico {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #eaf0ff;
+    border: 1px solid #d4e0ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .ms-svc-stat-txt {
+    line-height: 1.15;
+    text-align: left;
+  }
+  .ms-svc-stat-t {
+    display: block;
+    font-weight: 800;
+    font-size: 15px;
+    color: #0c1023;
+  }
+  .ms-svc-stat-s {
+    display: block;
+    font-size: 12.5px;
+    color: #6b6f7d;
+    margin-top: 3px;
   }
   .ms-svc-inner {
     position: relative;
