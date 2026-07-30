@@ -16,9 +16,9 @@ const { solid = false } = Astro.props;
 const navLinks = [
   { name: 'Services', url: '/#services' },
   { name: 'Pricing', url: '/#pricing' },
-  { name: 'Reviews', url: '/#reviews' },
   { name: 'FAQ', url: '/#faq' },
   { name: 'Contact', url: '/#contact' },
+  { name: 'Request a callback', url: '/#request-callback' },
 ];
 ---
 
@@ -37,8 +37,8 @@ const navLinks = [
     class="relative z-50 mx-auto flex max-w-[1200px] items-center justify-between gap-6 px-6 py-4"
   >
     {/* Client's final logo (white lockup, sits over the dark hero / navy header). */}
-    <a href="/" class="flex-none" aria-label="OmniSecure Locksmith LLC — home">
-      <img src={logo.src} alt="OmniSecure Locksmith LLC" width="1123" height="299" class="w-[240px] max-xs:w-[200px] h-auto" />
+    <a href="/" class="flex-none" aria-label="Omnisecure Locksmith LLC — home">
+      <img src={logo.src} alt="Omnisecure Locksmith LLC" width="982" height="275" class="w-[240px] max-xs:w-[200px] h-auto" />
     </a>
 
     {/* Desktop nav */}

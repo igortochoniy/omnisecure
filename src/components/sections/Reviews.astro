@@ -12,7 +12,7 @@ import angiLogo from '@images/design/angi.svg';
 const row1 = [
   {
     quote:
-      'They arrived in 22 minutes when we were locked out at 1am with a toddler in the car — and got us in without a scratch.',
+      'They arrived in 22 minutes when we were locked out at 1am with a toddler in the car, and got us in without a scratch.',
     name: 'Priya S.',
     role: 'Homeowner',
     city: 'Boston, MA',
@@ -25,7 +25,7 @@ const row1 = [
     name: 'Marcus T.',
     role: 'Retail Owner',
     city: 'Cambridge, MA',
-    platform: 'Thumbtack' as const,
+    platform: 'Google' as const,
     initials: 'MT',
   },
   {
@@ -34,7 +34,7 @@ const row1 = [
     name: 'Kevin L.',
     role: 'Driver',
     city: 'Springfield, MA',
-    platform: 'Angi' as const,
+    platform: 'Google' as const,
     initials: 'KL',
   },
   {
@@ -63,7 +63,7 @@ const row2 = [
     name: 'James C.',
     role: 'Office Manager',
     city: 'Quincy, MA',
-    platform: 'Angi' as const,
+    platform: 'Google' as const,
     initials: 'JC',
   },
   {
@@ -72,7 +72,7 @@ const row2 = [
     name: 'Linh N.',
     role: 'Cafe Owner',
     city: 'Framingham, MA',
-    platform: 'Thumbtack' as const,
+    platform: 'Google' as const,
     initials: 'LN',
   },
   {
@@ -176,6 +176,11 @@ const row2 = [
 </section>
 
 <style>
+  /* TEMP: trust strip (5.0 score + platform logos) hidden until real reviews. */
+  .ms-trust {
+    display: none !important;
+  }
+
   .ms-rev-sec {
     position: relative;
     background: #ecf0fb;
@@ -331,7 +336,7 @@ const row2 = [
   @media (max-width: 56.25rem) {
     .ms-marquee {
       scroll-snap-type: x mandatory;
-      touch-action: pan-x;
+      touch-action: pan-x pan-y;
       -webkit-mask-image: none;
       mask-image: none;
       cursor: default;

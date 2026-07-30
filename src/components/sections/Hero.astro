@@ -78,8 +78,8 @@ const services = [
         </h1>
 
         <p class="ms-hero-sub">
-          24/7 emergency, residential, commercial and automotive locksmith
-          services — serving Boston and everywhere within a 30-mile radius.
+          Same-day emergency, residential, commercial and automotive locksmith
+          services, serving Boston and the surrounding 30-mile area.
         </p>
 
         <div class="ms-btn-row">
@@ -142,7 +142,7 @@ const services = [
             >
               <h2 class="ms-form-title">Request a callback</h2>
               <p class="ms-form-sub">
-                Tell us what's going on — we'll call you back in minutes.
+                Tell us what's going on and we'll call you back in minutes.
               </p>
               <div class="ms-form-fields">
                 <label class="sr-only" for="hero-name">Full name</label>
@@ -211,7 +211,7 @@ const services = [
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                   <path d="m9 12 2 2 4-4"></path>
                 </svg>
-                Licensed, bonded &amp; insured · No obligation
+                Fully Insured by Hiscox
               </div>
               <p class="contact-status ms-form-status" role="status" aria-live="polite">
               </p>
@@ -234,7 +234,7 @@ const services = [
                   <path d="M20 6 9 17l-5-5"></path>
                 </svg>
               </span>
-              <h2 class="ms-form-done-title">Thanks — we've got it!</h2>
+              <h2 class="ms-form-done-title">Thanks, we've got it!</h2>
               <p class="ms-form-done-sub">
                 A locksmith will call you back shortly. Need us now?
                 <a href={CONTACT.phoneHref} data-track="call_click"
@@ -252,27 +252,6 @@ const services = [
           <span class="ms-rating-src">Google reviews</span>
         </div>
 
-        {/* floating ETA pill (bottom-left) */}
-        <div class="ms-float-b ms-eta-pill" aria-hidden="true">
-          <svg
-            viewBox="0 0 24 24"
-            width="20"
-            height="20"
-            fill="none"
-            stroke="#fff"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="12" r="9"></circle>
-            <line class="ms-arrow" x1="12" y1="12" x2="12" y2="6"></line>
-          </svg>
-          <span class="ms-eta-txt">
-            <span class="ms-eta-t">ETA ~20 min</span>
-            <span class="ms-eta-s">On the way now</span>
-          </span>
-        </div>
       </div>
     </div>
   </div>
@@ -384,7 +363,7 @@ const services = [
     }
   }
   .ms-hero-content {
-    margin-top: 120px;
+    margin-top: 0;
     animation: msHeroUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
   }
   /* The form appears softly by fading its CONTENT in — the glass panel itself
@@ -475,7 +454,7 @@ const services = [
 
   .ms-hero-h1 {
     font-size: 66px;
-    line-height: 1.02;
+    line-height: 1.1;
     letter-spacing: -2.2px;
     font-weight: 800;
     margin: 30px 0 0;
@@ -724,6 +703,10 @@ const services = [
     min-height: 1em;
     color: #c8cee2;
   }
+  /* Hide the status line until it has a message (don't reserve space in the hero). */
+  .ms-form-status:empty {
+    display: none;
+  }
   .ms-form-status[data-state='error'] {
     color: #ffb4b0;
   }
@@ -766,6 +749,10 @@ const services = [
   }
 
   /* Floating rating card */
+  /* TEMP: floating rating card hidden until real reviews. */
+  .ms-rating-card {
+    display: none !important;
+  }
   .ms-rating-card {
     position: absolute;
     top: -26px;
@@ -875,7 +862,7 @@ const services = [
     }
     .ms-hero-grid {
       grid-template-columns: 1fr;
-      gap: 36px;
+      gap: 20px;
     }
   }
   @media (max-width: 43.75rem) {
@@ -889,9 +876,10 @@ const services = [
       padding: 88px 10px 52px;
     }
     .ms-hero-h1 {
-      font-size: 38px;
+      font-size: 40px;
       letter-spacing: -1px;
       line-height: 1.08;
+      margin: 50px 0 0 0;
     }
     .ms-hero-sub {
       font-size: 16.5px;
@@ -913,10 +901,10 @@ const services = [
       font-size: 11px;
     }
     .ms-hero-formcard {
-      margin: 60px 0;
+      margin: 30px 0 20px 0;
     }
     .ms-hero-formglass {
-      padding: 40px 20px 20px 20px;
+      padding: 40px 20px;
     }
     .ms-btn-row {
       flex-wrap: nowrap;

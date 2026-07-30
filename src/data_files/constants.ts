@@ -1,14 +1,14 @@
 import ogImageSrc from '@images/social.png';
 
 export const SITE = {
-  title: 'OmniSecure Locksmith LLC',
-  tagline: '24/7 Boston Locksmith',
+  title: 'Omnisecure Locksmith LLC',
+  tagline: 'Same-Day Boston Locksmith',
   description:
-    'OmniSecure Locksmith LLC — licensed 24/7 emergency, residential, commercial and automotive locksmith serving Boston and everywhere within a 30-mile radius. Same-day service, upfront pricing.',
+    'Omnisecure Locksmith LLC. Insured emergency, residential, commercial and automotive locksmith serving Boston and the surrounding 30-mile area. Same-day service, upfront pricing.',
   description_short:
-    'Licensed 24/7 locksmith serving Boston & all of Massachusetts. Emergency lockouts, residential, automotive and commercial.',
+    'Insured locksmith serving Boston and the surrounding 30-mile area. Emergency lockouts, residential, automotive and commercial.',
   url: 'https://omnisecurelocksmith.com',
-  author: 'OmniSecure Locksmith LLC',
+  author: 'Omnisecure Locksmith LLC',
 };
 
 // Verbatim contact info from the design handoff (§5). TODO: swap the placeholder
@@ -16,11 +16,11 @@ export const SITE = {
 export const CONTACT = {
   phoneDisplay: '(617) 555-0134',
   phoneHref: 'tel:+16175550134',
-  email: 'info@locksmith.com',
-  emailHref: 'mailto:info@locksmith.com',
-  areaShort: 'Greater Boston & all of MA',
-  areaLong: 'Greater Boston & all of Massachusetts (30-mile radius)',
-  hours: 'Open 24 hours · 7 days a week',
+  email: 'support@omnisecurelocksmith.com',
+  emailHref: 'mailto:support@omnisecurelocksmith.com',
+  areaShort: 'Boston + 30-mile area',
+  areaLong: 'Boston and the surrounding 30-mile area',
+  hours: 'Mon–Sat 8 AM – 10 PM · Sun closed',
 };
 
 export const SEO = {
@@ -47,8 +47,8 @@ export const OG = {
   locale: 'en_US',
   type: 'website',
   url: SITE.url,
-  title: 'OmniSecure Locksmith LLC — 24/7 Boston Locksmith',
+  title: 'Omnisecure Locksmith LLC · Same-Day Boston Locksmith',
   description:
-    'Day or night, your Boston locksmith is on the way. Licensed 24/7 emergency, residential, automotive and commercial locksmith services across Greater Boston & all of Massachusetts. Same-day service, upfront pricing.',
+    'Your Boston locksmith is on the way, fast. Insured emergency, residential, automotive and commercial locksmith services across Boston and the surrounding 30-mile area. Same-day service, upfront pricing.',
   image: ogImageSrc,
 };

@@ -98,7 +98,7 @@
   --color-zinc-900: oklch(0.21 0.006 285.885);
   --color-zinc-950: oklch(0.141 0.005 285.823);
 
-  /* ── OmniSecure brand tokens → utilities bg-brand, text-navy, border-hair … ── */
+  /* ── Omnisecure brand tokens → utilities bg-brand, text-navy, border-hair … ── */
   --color-brand: #2b57f0;
   --color-brand-hover: #4a72ff;
   --color-brand-light: #7ea0ff;
@@ -170,7 +170,7 @@
   }
 }
 
-/* ── OmniSecure base ── */
+/* ── Omnisecure base ── */
 @layer base {
   html {
     scrollbar-gutter: stable;

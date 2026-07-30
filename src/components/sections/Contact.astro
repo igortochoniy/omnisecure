@@ -24,9 +24,20 @@ const services = [
         <div class="ms-contact-head">
           <h2 class="ms-contact-h2">Talk to a real <br />locksmith now</h2>
           <p class="ms-contact-lead">
-            Tell us what you need and we'll call you right back — usually within a
-            few minutes, day or night.
+            Tell us what you need and we'll call you right back, usually within a
+            few minutes.
           </p>
+        </div>
+
+        <div class="ms-contact-eta" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <line class="ms-eta-arrow" x1="12" y1="12" x2="12" y2="6"></line>
+          </svg>
+          <span class="ms-eta-txt">
+            <span class="ms-eta-t">ETA ~20 min</span>
+            <span class="ms-eta-s">On the way now</span>
+          </span>
         </div>
 
         <div class="ms-contact-rows">
@@ -37,7 +48,7 @@ const services = [
               </svg>
             </span>
             <span class="ms-contact-txt">
-              <span class="ms-contact-label">Call 24/7</span>
+              <span class="ms-contact-label">Call us</span>
               <span class="ms-contact-val ms-contact-val-lg">{CONTACT.phoneDisplay}</span>
             </span>
           </a>
@@ -62,7 +73,7 @@ const services = [
             </span>
             <span class="ms-contact-txt">
               <span class="ms-contact-label">Service area</span>
-              <span class="ms-contact-val">Greater Boston &amp; all of Massachusetts</span>
+              <span class="ms-contact-val">Boston and the surrounding 30-mile area</span>
             </span>
           </div>
         </div>
@@ -72,7 +83,7 @@ const services = [
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             <path d="m9 12 2 2 4-4"></path>
           </svg>
-          Licensed, bonded &amp; insured in MA
+          Fully Insured by Hiscox
         </div>
       </div>
 
@@ -89,12 +100,12 @@ const services = [
             <div>
               <h3 class="ms-contact-formtitle">Request a callback</h3>
               <p class="ms-contact-formsub">
-                Free, no-obligation quote — we'll confirm the price before any
+                Free, no-obligation quote. We'll confirm the price before any
                 work.
               </p>
             </div>
             <span class="ms-contact-avg">
-              <span class="ms-cping"></span>Avg. callback ~2 min
+              <span class="ms-cping"></span>Avg. callback ~15–25 min
             </span>
           </div>
 
@@ -142,7 +153,7 @@ const services = [
               <path d="M20 6 9 17l-5-5"></path>
             </svg>
           </span>
-          <h3 class="ms-cdone-title">Thanks — we've got it!</h3>
+          <h3 class="ms-cdone-title">Thanks, we've got it!</h3>
           <p class="ms-cdone-sub">
             A locksmith will call you back shortly. Need us right now? Call
             <a href={CONTACT.phoneHref} data-track="call_click">{CONTACT.phoneDisplay}</a>.
@@ -219,6 +230,47 @@ const services = [
     color: #aeb5d1;
     margin: 14px 0 0;
     max-width: 330px;
+  }
+  /* ETA badge (moved from the hero) — inline on the navy info panel. */
+  .ms-contact-eta {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    background: #2b57f0;
+    color: #fff;
+    border-radius: 14px;
+    padding: 12px 18px;
+    box-shadow: 0 14px 32px rgba(43, 87, 240, 0.4);
+  }
+  .ms-contact-eta .ms-eta-txt {
+    line-height: 1.1;
+  }
+  .ms-contact-eta .ms-eta-t {
+    display: block;
+    font-weight: 800;
+    font-size: 16px;
+  }
+  .ms-contact-eta .ms-eta-s {
+    display: block;
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+  .ms-eta-arrow {
+    transform-origin: 12px 12px;
+    animation: msEtaArrow 2s linear infinite;
+  }
+  @keyframes msEtaArrow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ms-eta-arrow {
+      animation: none;
+    }
   }
   .ms-contact-rows {
     position: relative;

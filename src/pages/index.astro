@@ -3,7 +3,7 @@ import MainLayout from '@/layouts/MainLayout.astro';
 import Hero from '@components/sections/Hero.astro';
 import Services from '@components/sections/Services.astro';
 import Pricing from '@components/sections/Pricing.astro';
-import Reviews from '@components/sections/Reviews.astro';
+// import Reviews from '@components/sections/Reviews.astro'; // TEMP: hidden until real reviews
 import EmergencyCTA from '@components/sections/EmergencyCTA.astro';
 import Faq from '@components/sections/Faq.astro';
 import Contact from '@components/sections/Contact.astro';
@@ -14,7 +14,8 @@ import homeSeo from '@data/seo/home.json';
   <Hero />
   <Services />
   <Pricing />
-  <Reviews />
+  {/* TEMP: Reviews hidden until real client reviews are collected. */}
+  {/* <Reviews /> */}
   <EmergencyCTA />
   <Faq />
   <Contact />

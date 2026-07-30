@@ -10,9 +10,10 @@ interface Props {
   image: ImageMetadata;
   alt: string;
   href?: string;
+  id?: string;
   revealDelay?: number;
 }
-const { title, copy, image, alt, href = '#request-callback', revealDelay } = Astro.props;
+const { title, copy, image, alt, href = '#request-callback', id, revealDelay } = Astro.props;
 ---
 
 <a
@@ -20,7 +21,9 @@ const { title, copy, image, alt, href = '#request-callback', revealDelay } = Ast
   class="ms-svc-card reveal group block"
   data-reveal-delay={revealDelay}
 >
-  <div class="ms-svc-body">
+  {/* Anchor target on a non-focusable element so footer #svc-* links scroll here
+      without focus-highlighting the whole card. */}
+  <div class="ms-svc-body" id={id}>
     <h3 class="ms-svc-title">{title}</h3>
     <p class="ms-svc-copy">{copy}</p>
     <span class="ms-svc-link">
@@ -54,6 +57,7 @@ const { title, copy, image, alt, href = '#request-callback', revealDelay } = Ast
 
 <style>
   .ms-svc-card {
+    scroll-margin-top: 100px;
     display: flex;
     flex-direction: column;
     background: #ffffff;
@@ -72,6 +76,7 @@ const { title, copy, image, alt, href = '#request-callback', revealDelay } = Ast
     box-shadow: 0 34px 70px rgba(18, 24, 50, 0.16);
   }
   .ms-svc-body {
+    scroll-margin-top: 100px;
     padding: 46px 42px 30px;
     text-align: center;
   }

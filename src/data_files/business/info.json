@@ -1,5 +1,5 @@
 {
-  "name": "OmniSecure Locksmith LLC",
+  "name": "Omnisecure Locksmith LLC",
   "telephone": "+16175550134",
   "priceRange": "$$",
   "areaServed": "Greater Boston & all of Massachusetts",
@@ -10,7 +10,7 @@
   "addressCountry": "US",
   "latitude": "",
   "longitude": "",
-  "open24_7": true,
+  "open24_7": false,
   "image": "",
   "sameAs": [],
   "ratingValue": "4.9",

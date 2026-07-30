@@ -6,14 +6,13 @@ import { CONTACT } from '@data/constants';
 import footerLogo from '@images/design/footer-logo.svg';
 
 const servicesLinks = [
-  'Emergency Locksmith',
-  'Residential Locksmith',
-  'Automotive Locksmith',
-  'Commercial Locksmith',
+  { name: 'Emergency Locksmith', url: '/#svc-emergency' },
+  { name: 'Residential Locksmith', url: '/#svc-residential' },
+  { name: 'Automotive Locksmith', url: '/#svc-automotive' },
+  { name: 'Commercial Locksmith', url: '/#svc-commercial' },
 ];
 const companyLinks = [
   { name: 'Pricing', url: '/#pricing' },
-  { name: 'Reviews', url: '/#reviews' },
   { name: 'FAQ', url: '/#faq' },
   { name: 'Contact', url: '/#contact' },
 ];
@@ -27,19 +26,16 @@ const year = new Date().getFullYear();
     <div class="ms-footer-grid reveal">
       {/* Brand */}
       <div>
-        <a href="/" aria-label="OmniSecure Locksmith LLC — home">
-          <img src={footerLogo.src} alt="OmniSecure Locksmith LLC" width="1123" height="299" class="ms-foot-logo" />
+        <a href="/" aria-label="Omnisecure Locksmith LLC — home">
+          <img src={footerLogo.src} alt="Omnisecure Locksmith LLC" width="982" height="275" class="ms-foot-logo" />
         </a>
         <p class="ms-foot-desc">
-          24/7 licensed, bonded and insured locksmith service for homes, cars and
-          businesses across Greater Boston and Massachusetts.
+          Locksmith service for homes, cars and businesses, fully insured by
+          Hiscox, serving Boston and the surrounding 30-mile area.
         </p>
-        <div class="ms-foot-avail-pill">
+        <div class="ms-foot-avail-pill" data-avail-pill>
           <span class="ms-foot-ping"></span>
-          <span class="ms-foot-avail"
-            ><span class="ms-foot-avail-full">Available now · </span>Open 24
-            hours</span
-          >
+          <span class="ms-foot-avail" data-avail-text>Mon–Sat 8 AM – 10 PM</span>
         </div>
       </div>
 
@@ -47,7 +43,7 @@ const year = new Date().getFullYear();
       <div>
         <h4 class="ms-foot-h">Services</h4>
         <div class="ms-foot-links">
-          {servicesLinks.map(name => <a href="/#services">{name}</a>)}
+          {servicesLinks.map(l => <a href={l.url}>{l.name}</a>)}
         </div>
       </div>
 
@@ -64,7 +60,7 @@ const year = new Date().getFullYear();
         <h4 class="ms-foot-h">Get in touch</h4>
         <div class="ms-foot-contact">
           <a href={CONTACT.phoneHref} class="ms-foot-cwhite" data-track="call_click">
-            <span class="ms-foot-cap">CALL 24/7</span>
+            <span class="ms-foot-cap">CALL US</span>
             <span class="ms-foot-cphone">{CONTACT.phoneDisplay}</span>
           </a>
           <a href={CONTACT.emailHref}>
@@ -73,7 +69,7 @@ const year = new Date().getFullYear();
           </a>
           <div>
             <span class="ms-foot-cap">SERVICE AREA</span>
-            <span class="ms-foot-cval">Greater Boston &amp; all of MA</span>
+            <span class="ms-foot-cval">Serving Boston and the surrounding 30-mile area</span>
           </div>
         </div>
       </div>
@@ -81,7 +77,7 @@ const year = new Date().getFullYear();
 
     {/* Bottom bar */}
     <div class="ms-foot-bottom">
-      <span>© {year} OmniSecure Locksmith LLC. All rights reserved.</span>
+      <span>© {year} Omnisecure Locksmith LLC. All rights reserved.</span>
       <span class="ms-foot-legal">
         <a href="/privacy-policy/">Privacy Policy</a>
         <a href="/terms/">Terms of Service</a>
@@ -299,4 +295,28 @@ const year = new Date().getFullYear();
       margin: 40px 0 15px 0;
     }
   }
+
+  /* Closed state (set by JS from Boston time): grey, static dot. */
+  .ms-foot-avail-pill.is-closed .ms-foot-ping {
+    background: #8a93ad;
+    animation: none;
+  }
 </style>
+
+<script>
+  // Availability pill driven by the business's real hours in Boston time
+  // (Mon–Sat 8:00 AM – 10:00 PM; Sunday closed), independent of the visitor's TZ.
+  const text = document.querySelector<HTMLElement>('[data-avail-text]');
+  const pill = document.querySelector<HTMLElement>('[data-avail-pill]');
+  if (text && pill) {
+    const boston = new Date(
+      new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })
+    );
+    const day = boston.getDay(); // 0 = Sun … 6 = Sat
+    const hour = boston.getHours();
+    const open = day >= 1 && day <= 6 && hour >= 8 && hour < 22;
+    text.textContent =
+      (open ? 'Open now' : 'Closed now') + ' · Mon–Sat 8 AM – 10 PM';
+    pill.classList.toggle('is-closed', !open);
+  }
+</script>
